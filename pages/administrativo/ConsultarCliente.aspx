@@ -1,0 +1,68 @@
+﻿<%@ Page Language="VB" MasterPageFile="~/EMBALA.master" AutoEventWireup="false" CodeFile="ConsultarCliente.aspx.vb" Inherits="pages_administrativo_ConsultarCliente" %>
+
+
+<asp:Content ID="Content" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
+    <div id="formulario">
+        <div id="Filtro" class="boxes">
+            <h2>Consulta de Clientes</h2>
+            <p>
+                <asp:Label ID="label" runat="server" Text="Nome" CssClass="lbl"></asp:Label>
+                <asp:TextBox ID="txtNome" runat="server" CssClass="texto"></asp:TextBox>
+            </p>
+            <p>
+                <asp:Label ID="label1" runat="server" Text="CPF/CNPJ" CssClass="lbl"></asp:Label>
+                <asp:TextBox ID="txtCPF" runat="server" CssClass="texto" Width="150px"></asp:TextBox>
+                <asp:Label ID="Label2" runat="server" Font-Italic="True" Font-Size="8pt" ForeColor="#C00000" Text="(somente números)"></asp:Label>
+            </p>
+            <p>
+                
+                <asp:Button ID="btnPesquisar" runat="server" CssClass="botaoForm search" 
+                    Text="Pesquisar" />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <asp:Button ID="btnAddCliente" runat="server" CssClass="botaoForm article" 
+                    Text="Adicionar novo Cliente" />
+                
+            </p>
+            
+            <p>
+
+                <asp:GridView ID="gvCliente" runat="server" AutoGenerateColumns="False" 
+                    CellPadding="4" ForeColor="#333333" GridLines="None" ShowFooter="True" 
+                    Width="936px" >
+                    <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
+                    <Columns>
+                        <asp:ButtonField ButtonType="Image" CommandName="Pesquisar" 
+                            DataTextField="CODIGO" ImageUrl="~/recursos/Images/search.png">
+                        <ItemStyle Width="10px" />
+                        </asp:ButtonField>
+                        <asp:BoundField DataField="NOME" HeaderText="Nome" >
+                        <HeaderStyle HorizontalAlign="Left" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="CPFCNPJ" HeaderText="CPF/CNPJ" >
+                        <HeaderStyle HorizontalAlign="Left" />
+                        <ItemStyle Width="80px" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="VENDEDOR" HeaderText="Vendedor" 
+                            NullDisplayText="- Cliente Master -" >
+                        <HeaderStyle HorizontalAlign="Left" />
+                        </asp:BoundField>
+                        <asp:BoundField DataField="TELEFONE" HeaderText="Telefones" NullDisplayText="-">
+                        <HeaderStyle HorizontalAlign="Left" />
+                        </asp:BoundField>
+                    </Columns>
+                    <EditRowStyle BackColor="#999999" />
+                    <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                    <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                    <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+                    <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+                    <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+                    <SortedAscendingCellStyle BackColor="#E9E7E2" />
+                    <SortedAscendingHeaderStyle BackColor="#506C8C" />
+                    <SortedDescendingCellStyle BackColor="#FFFDF8" />
+                    <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
+                </asp:GridView>
+
+            </p>
+        </div>
+    </div>
+</asp:Content>

@@ -1,0 +1,55 @@
+﻿.google .ajax__tab_header 
+{
+	font-size:12px;
+	font-weight:bold;
+    font-family:Arial;
+    padding-left:5px;
+    border-bottom:solid 2px #4ba379;
+}
+.google .ajax__tab_body 
+{
+    font-family:Arial;
+    font-size:10pt;
+    border:solid 1px #dddddd;
+    border-top:none;
+    padding-top:10px;
+} 
+/* Active/Hover States */
+.google .ajax__tab_active .ajax__tab_outer
+{
+    margin-right:4px;
+	background:url(img/active-tl.gif) no-repeat left top;    
+}
+.google .ajax__tab_active .ajax__tab_inner
+{
+    margin-left:4px;
+	background:url(img/active-tr.gif) no-repeat right top;        
+}
+.google .ajax__tab_active .ajax__tab_tab
+{
+	margin-right:4px;	
+	padding:5px 3px;
+	color:#fff;
+	background:#4ba379;
+	text-decoration:none;
+}
+/* Regular States */
+.google .ajax__tab_outer
+{
+    margin-right:4px;
+	background:url(img/inactive-tl.gif) no-repeat left top;   	
+}
+.google .ajax__tab_inner
+{
+    margin-left:4px;
+	background:url(img/inactive-tr.gif) no-repeat right top;  	
+}
+.google .ajax__tab_tab
+{
+	margin-right:4px;
+	padding:5px 3px;
+	color:black;
+	background:url(img/inactive-mid.gif) repeat-x;
+	text-decoration:underline;
+}
+ 

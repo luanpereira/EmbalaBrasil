@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic
+Imports Camadas.Dominio.Administrativo
 
 Namespace Camadas.Dominio.Estoque
     Public Class PedidoClienteMaster
