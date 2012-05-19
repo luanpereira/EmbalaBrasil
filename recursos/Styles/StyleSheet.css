@@ -30,6 +30,9 @@ body {
 }
 
 .boxes {
+
+
+.boxes {
     margin: 0px 0px 0px 0px;
     padding: 20px 30px 5px;
     background: white url(../Images/bottommod-bg.png) repeat-x;
@@ -37,11 +40,9 @@ body {
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+    height: 898px;
 }
 
-.lbl 
-{
-    float: left;
     width: 85px;
     text-align: left;
     background: #CCC url(../Images/overlay-button.png) repeat-x;
@@ -86,7 +87,7 @@ input.texto {
     position: relative;
     top: 0px;
     left: 0px;
-    width: 338px;
+    width: 342px;
     text-transform: uppercase;
 }
 
@@ -129,10 +130,20 @@ input.botaoForm:hover
     padding-left: 20px;
 }
 
+.botaoForm.save {
+    background: #104E8B url(../Images/save.png) no-repeat left center;
+    padding-left: 20px;
+}
+
 #Filtro .lbl {
     width: 90px;
     text-align: left;
 
+}
+#FormCliente .lbl
+{
+    width: 120px;
+    text-align: left;
 }
 #formulario .lbl {
     float: left;
