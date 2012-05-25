@@ -1,5 +1,4 @@
 Imports Camadas.DAO
-Imports Camadas.DAO.Interface
 Imports MySql.Data.MySqlClient
 Imports System.Data.OleDb
 Imports System.Data
@@ -20,7 +19,7 @@ Namespace Camadas.DAO
         'EMPRESA
         Private Shared EMPRESA As String = System.Configuration.ConfigurationManager.AppSettings.Item("EMPRESA").ToString
         'CONEXAO
-        Private Shared cnn As IDbConnection
+        Private Shared cnn As MySqlConnection
         'TRANSAÇÃO
         Private Shared transaction As MySqlTransaction
         'STRING DE CONEXAO
@@ -83,10 +82,13 @@ Namespace Camadas.DAO
             transaction.Rollback()
         End Sub
 
-        'Public Shared Function GetClienteDAO() As IClienteDAO
-        '    Return New ClienteDAO(GetConnection)
-        'End Function
+        Public Shared Function GetClienteDAO() As IClienteDAO
+            Return New ClienteDAO(GetConnection)
+        End Function
 
+        Public Shared Function GetVendedorDAO() As IVendedorDAO
+            Return New VendedorDAO(GetConnection)
+        End Function
     End Class
 
 End Namespace

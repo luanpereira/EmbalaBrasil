@@ -39,7 +39,7 @@ Public Class Seguranca
 
     Public Shared Sub GravarLog(ByVal u As Usuario, ByVal operacao As String, ByVal tabela As String, ByVal sql As String)
 
-        strSql = "  INSERT INTO ac96log VALUES(NULL,"
+        strSql = "  INSERT INTO eb97log VALUES(NULL,"
         strSql += u.Codigo & ", '"
         strSql += operacao & "', '"
         strSql += tabela & "', '"
@@ -49,7 +49,7 @@ Public Class Seguranca
 
 
             cmd = DaoFactory.GetConnection.CreateCommand
-            'cmd.Transaction = DaoFactory.GetCurrentTransaction
+            cmd.Transaction = DaoFactory.GetCurrentTransaction
             cmd.CommandText = strSql
             cmd.ExecuteNonQuery()
 
@@ -110,9 +110,9 @@ Public Class Seguranca
                 usuario.Codigo = dr.Item("AC03CODIGO").ToString
                 usuario.Nome = dr.Item("AC03NOMECOMPLETO").ToString
                 If dr.Item("AC03ULTIMOACESSO").ToString <> "" Then usuario.UltimoAcesso = Format(Date.Parse(dr.Item("AC03ULTIMOACESSO").ToString), "dd/MM/yyyy")
-                usuario.Ativo = dr.Item("AC03ATIVO").ToString
+                usuario.AcessoWeb = dr.Item("AC03ATIVO").ToString
 
-                If usuario.Ativo = "0" Then Throw New UsuarioPermissaoException("VOCÊ FOI DESATIVADO DO SISTEMA. ENTRE EM CONTATO COM O SUPORTE.")
+                If usuario.AcessoWeb = "0" Then Throw New UsuarioPermissaoException("VOCÊ FOI DESATIVADO DO SISTEMA. ENTRE EM CONTATO COM O SUPORTE.")
 
                 dr.Close()
 
@@ -151,9 +151,9 @@ Public Class Seguranca
             If session("usuario") Is Nothing Then
                 Throw New UsuarioPermissaoException("SEU LOGIN EXPIROU. FAÇA SEU LOGIN NOVAMENTE.")
             Else
-                If Not (CType(session("usuario"), Usuario).Funcao = Funcao1 Or _
-                    CType(session("usuario"), Usuario).Funcao = Funcao2 Or _
-                    CType(session("usuario"), Usuario).Funcao = Funcao3) Then
+                If Not (CType(session("usuario"), Usuario).NivelAcesso = Funcao1 Or _
+                    CType(session("usuario"), Usuario).NivelAcesso = Funcao2 Or _
+                    CType(session("usuario"), Usuario).NivelAcesso = Funcao3) Then
                     Throw New UsuarioPermissaoException("ACESSO NEGADO. VOCÊ NÃO TEM PERMISSÃO PARA PROSEGUIR.")
                 End If
             End If

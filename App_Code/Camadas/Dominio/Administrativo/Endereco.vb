@@ -8,13 +8,11 @@ Namespace Camadas.Dominio.Administrativo
 
         Public Property Bairro() As String
 
-        Public Property Uf() As Short
-
-        Public Property Cidade() As Integer
+        Public Property Cidade() As New Cidade
 
         Public ReadOnly Property Completo() As String
             Get
-                Return _Logradouro & ", " & _Bairro & " " & _Cidade & " " & _Cidade & ", CEP:" & _Cep
+                Return _Logradouro & ", " & _Bairro & " " & _Cidade.Nome & " " & _Cidade.Estado.Nome & ", CEP:" & _Cep
             End Get
         End Property
 

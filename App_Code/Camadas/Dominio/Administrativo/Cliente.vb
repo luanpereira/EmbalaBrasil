@@ -8,7 +8,7 @@ Namespace Camadas.Dominio.Administrativo
         Inherits Pessoa
 
         Public Property QuantidadeDispensadores() As Integer
-        Public Property Vendedor() As Vendedor
+        Public Property Vendedor() As New Vendedor
         Public Property TipoPessoa() As eTipoPessoa
         Public Property PessoaJuridica() As PessoaJuridica
         Public Property PessoaFisica() As PessoaFisica

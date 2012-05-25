@@ -30,9 +30,6 @@ body {
 }
 
 .boxes {
-
-
-.boxes {
     margin: 0px 0px 0px 0px;
     padding: 20px 30px 5px;
     background: white url(../Images/bottommod-bg.png) repeat-x;
@@ -43,6 +40,9 @@ body {
     height: 898px;
 }
 
+.lbl
+{
+    float: left;
     width: 85px;
     text-align: left;
     background: #CCC url(../Images/overlay-button.png) repeat-x;

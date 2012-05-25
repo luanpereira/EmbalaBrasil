@@ -366,7 +366,7 @@ Namespace Infraestrutura
         Public Shared Function ListarEstados() As DataTable
 
             Dim ds As New DataSet
-            strSql = "SELECT * FROM AC98ESTADO ORDER BY AC98SIGLA"
+            strSql = "SELECT * FROM EB99ESTADO ORDER BY EB99SIGLA"
 
             Try
 
@@ -387,8 +387,8 @@ Namespace Infraestrutura
         Public Shared Function ListarCidades(ByVal UF As Int16) As DataTable
 
             Dim ds As New DataSet
-            strSql = "SELECT * FROM AC97CIDADE WHERE FK9798ESTADO = " & UF
-            strSql += " ORDER BY AC97NOME "
+            strSql = "SELECT * FROM EB98CIDADE WHERE FK9899ESTADO = " & UF
+            strSql += " ORDER BY EB98NOME "
 
             Try
 
