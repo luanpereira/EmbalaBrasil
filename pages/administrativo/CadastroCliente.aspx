@@ -75,7 +75,7 @@
                             <asp:MaskedEditExtender ID="MaskedEditExtender6" runat="server" CultureAMPMPlaceholder=""
                                 CultureCurrencySymbolPlaceholder="" CultureDateFormat="" CultureDatePlaceholder=""
                                 CultureDecimalPlaceholder="" CultureThousandsPlaceholder="" CultureTimePlaceholder=""
-                                Enabled="True" ErrorTooltipEnabled="True" InputDirection="LeftToRight" Mask="99,999,999,999/9999-9"
+                                Enabled="True" ErrorTooltipEnabled="True" InputDirection="LeftToRight" Mask="99,999,999/9999-99"
                                 MaskType="Date" TargetControlID="txtCNPJ">
                             </asp:MaskedEditExtender>     
                         <p>

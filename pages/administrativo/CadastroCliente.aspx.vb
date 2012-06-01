@@ -128,9 +128,9 @@ Partial Class pages_administrativo_CadastroCliente
             cliente.Endereco.Cidade.Estado.Codigo = drpUF.SelectedValue
             cliente.Endereco.Cidade.Estado.Nome = drpUF.SelectedItem.Text
             cliente.Endereco.Cep = txtCEP.Text
-            cliente.Contato.FoneResidencial = txtTelefoneFixo.Text
-            cliente.Contato.FoneCelular = txtCelular.Text
-            cliente.Contato.Fax = txtFax.Text
+            cliente.Contato.FoneResidencial = txtTelefoneFixo.Text.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "")
+            cliente.Contato.FoneCelular = txtCelular.Text.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "")
+            cliente.Contato.Fax = txtFax.Text.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "")
             cliente.Contato.Email = txtEmail.Text
             cliente.Vendedor.Codigo = drpVendedor.SelectedValue
             cliente.isAcessoWeb = chkAcesso.Checked
