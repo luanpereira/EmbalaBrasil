@@ -29,6 +29,12 @@ Namespace Infraestrutura
             Física
         End Enum
 
+        Public Enum eTipo
+            Cliente
+            Vendedor
+            Outro
+        End Enum
+
         Public Enum eTipoCliente
             Master
             Comum

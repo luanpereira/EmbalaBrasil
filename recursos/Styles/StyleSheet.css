@@ -29,6 +29,22 @@ body {
     text-align: left !important;
 }
 
+.loading {
+    position: fixed;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background: white url(../Images/aguarde.gif) no-repeat center;
+    filter: alpha(opacity=75);
+    -khtml-opacity: 0.75;
+    -moz-opacity: 0.75;
+    opacity: 0.75;
+    border-top: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
+}
+
 .boxes {
     margin: 0px 0px 0px 0px;
     padding: 20px 30px 5px;

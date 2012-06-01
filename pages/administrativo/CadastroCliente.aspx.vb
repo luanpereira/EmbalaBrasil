@@ -80,13 +80,17 @@ Partial Class pages_administrativo_CadastroCliente
                 Throw New BusinessException("VOCÊ DEVE SELECIONAR UM TIPO DE PESSOA.")
             End If
 
+            If drpTipoCliente.SelectedValue = "0" Then
+                Throw New BusinessException("VOCÊ DEVE SELECIONAR UM TIPO DE CLIENTE.")
+            End If
+
             Select Case rblPessoa.SelectedIndex
                 Case 1
                     If txtNome.Text = String.Empty Then Throw New BusinessException("O CAMPO NOME É OBRIGATÓRIO.")
                     If txtCPF.Text = String.Empty Then Throw New BusinessException("O CAMPO CPF É OBRIGATÓRIO.")
                     pFisica = New PessoaFisica
                     pFisica.Nome = txtNome.Text
-                    pFisica.Cpf = txtCPF.Text
+                    pFisica.Cpf = txtCPF.Text.Replace(".", "").Replace("-", "")
                     pFisica.Rg = txtRg.Text
 
                 Case 0
@@ -96,7 +100,7 @@ Partial Class pages_administrativo_CadastroCliente
                     pJuridica = New PessoaJuridica
                     pJuridica.RazaoSocial = txtRazaoSocial.Text
                     pJuridica.Fantasia = txtFantasia.Text
-                    pJuridica.CNPJ = txtCNPJ.Text
+                    pJuridica.CNPJ = txtCNPJ.Text.Replace(".", "").Replace("-", "").Replace("/", "")
                     pJuridica.InscricaoEstadual = txtInscEstadual.Text
 
                 Case Else
@@ -108,6 +112,10 @@ Partial Class pages_administrativo_CadastroCliente
                     If drpVendedor.SelectedValue = 0 Then Throw New BusinessException("O CAMPO VENDEDOR É OBRIGATÓRIO.")
                 Case Else
             End Select
+
+            If chkAcesso.Checked AndAlso txtSenha.Text = String.Empty Then
+                Throw New BusinessException("SE O CLIENTE FOR HABILITADO A TER ACESSO A WEB, ENTÃO DEVERÁ DIGITAR UMA SENHA.")
+            End If
 
             cliente = New Camadas.Dominio.Administrativo.Cliente
             cliente.TipoPessoa = IIf(rblPessoa.SelectedValue = "Física", eTipoPessoa.Física, eTipoPessoa.Jurídica)
@@ -125,11 +133,16 @@ Partial Class pages_administrativo_CadastroCliente
             cliente.Contato.Fax = txtFax.Text
             cliente.Contato.Email = txtEmail.Text
             cliente.Vendedor.Codigo = drpVendedor.SelectedValue
-
+            cliente.isAcessoWeb = chkAcesso.Checked
+            cliente.Senha = txtSenha.Text
 
             controller.cadastrarCliente(cliente)
 
-            Throw New BusinessException("CLIENTE CADASTRADO COM SUCESSO.")
+            ScriptManager.RegisterClientScriptBlock(Me.Page, Me.GetType, "Mensagem", "Mensagem('CLIENTE CADASTRADO COM SUCESSO.');", True)
+
+            Response.Redirect("~/pages/administrativo/ConsultarCliente.aspx")
+        Catch ex As BusinessException
+            ScriptManager.RegisterClientScriptBlock(Me.Page, Me.GetType, "Mensagem", "Mensagem('" & ex.Message.Replace("'", "") & "');", True)
         Catch ex As Exception
             ScriptManager.RegisterClientScriptBlock(Me.Page, Me.GetType, "Mensagem", "Mensagem('" & ex.Message.Replace("'", "") & "');", True)
         End Try
@@ -148,5 +161,9 @@ Partial Class pages_administrativo_CadastroCliente
         Catch ex As Exception
             Throw ex
         End Try
+    End Sub
+
+    Protected Sub chkAcesso_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkAcesso.CheckedChanged
+
     End Sub
 End Class

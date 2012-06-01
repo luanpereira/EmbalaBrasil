@@ -7,6 +7,7 @@ Imports Excecoes
 Imports System.Data.OleDb
 Imports System.Collections.Generic
 Imports MySql.Data.MySqlClient
+Imports Infraestrutura.Utils
 
 'Imports MySql.Data.MySqlClient
 
@@ -180,5 +181,29 @@ Public Class Seguranca
         Return strRes.ToString().TrimEnd(New Char() {" "c}).ToLower
 
     End Function
+
+    Public Shared Sub criarUsuario(ByVal u As Usuario)
+
+        strSql = "  INSERT INTO eb96usuario VALUES(NULL,'"
+        strSql += u.Nome & "', '"
+        strSql += u.Usuario & "', '"
+        strSql += u.Senha & "', "
+        strSql += IIf(u.Tipo = eTipo.Vendedor, u.Vendedor.Codigo, "NULL") & ", "
+        strSql += IIf(u.Tipo = eTipo.Cliente, u.Cliente.Codigo, "NULL") & ", "
+        strSql += IIf(u.AcessoWeb, 1, 0) & ", '"
+        strSql += u.NivelAcesso & "', CURRENT_TIMESTAMP())"
+
+        Try
+
+            cmd = DaoFactory.GetConnection.CreateCommand
+            cmd.Transaction = DaoFactory.GetCurrentTransaction
+            cmd.CommandText = strSql
+            cmd.ExecuteNonQuery()
+
+        Catch ex As Exception
+            Throw New DAOException("NÃO FOI POSSÍVEL CADASTRAR O USUÁRIO >>> " & ex.Message)
+        End Try
+
+    End Sub
 
 End Class
