@@ -112,7 +112,7 @@ Namespace Camadas.DAO
             strSql += "        (SELECT EB06NOME FROM EB06VENDEDOR WHERE EB06CODIGO=FK0406VENDEDOR) AS VENDEDOR, "
             strSql += "        CONCAT(EB04CELULAR,'/',EB04FONEFIXO,'/',EB04FAX) AS TELEFONE "
             strSql += "   FROM EB04CLIENTE "
-            strSql += "  ORDER BY NOME "
+            strSql += "  ORDER BY NOME,VENDEDOR "
 
             Try
                 adpt = DaoFactory.GetDataAdapter
@@ -145,14 +145,16 @@ Namespace Camadas.DAO
             strSql += "        CONCAT(EB04CELULAR,'/',EB04FONEFIXO,'/',EB04FAX) AS TELEFONE "
             strSql += "    FROM EB04CLIENTE "
 
-            If Not c.PessoaFisica.Nome.Trim = String.Empty Then strSql += " WHERE EB04NOME LIKE '%" & c.PessoaFisica.Nome & "%' "
-            If Not c.PessoaJuridica.RazaoSocial.Trim = String.Empty Then strSql += " OR EB04RAZAOSOCIAL LIKE '%" & c.PessoaJuridica.RazaoSocial & "%' "
-            If Not c.PessoaJuridica.Fantasia.Trim = String.Empty Then strSql += " OR EB04FANTASIA LIKE '%" & c.PessoaJuridica.Fantasia & "%' "
+            If c.Codigo > 0 Then strSql += " WHERE EB04CODIGO = " & c.Codigo
 
-            If Not c.PessoaFisica.Cpf.Trim = String.Empty Then strSql += IIf(c.PessoaFisica.Nome.Trim = String.Empty, " WHERE EB04CPF LIKE '%" & c.PessoaFisica.Cpf & "%' ", " OR EB04CPF LIKE '%" & c.PessoaFisica.Cpf & "%' ")
-            If Not c.PessoaJuridica.CNPJ.Trim = String.Empty Then strSql += " OR EB04CNPJ LIKE '%" & c.PessoaJuridica.CNPJ & "%' "
+            If Not c.PessoaFisica Is Nothing AndAlso Not c.PessoaFisica.Nome.Trim = String.Empty Then strSql += " WHERE EB04NOME LIKE '%" & c.PessoaFisica.Nome & "%' "
+            If Not c.PessoaJuridica Is Nothing AndAlso Not c.PessoaJuridica.RazaoSocial.Trim = String.Empty Then strSql += " OR EB04RAZAOSOCIAL LIKE '%" & c.PessoaJuridica.RazaoSocial & "%' "
+            If Not c.PessoaJuridica Is Nothing AndAlso Not c.PessoaJuridica.Fantasia.Trim = String.Empty Then strSql += " OR EB04FANTASIA LIKE '%" & c.PessoaJuridica.Fantasia & "%' "
 
-            strSql += "  ORDER BY NOME "
+            If Not c.PessoaFisica Is Nothing AndAlso Not c.PessoaFisica.Cpf.Trim = String.Empty Then strSql += IIf(c.PessoaFisica.Nome.Trim = String.Empty, " WHERE EB04CPF LIKE '%" & c.PessoaFisica.Cpf & "%' ", " OR EB04CPF LIKE '%" & c.PessoaFisica.Cpf & "%' ")
+            If Not c.PessoaJuridica Is Nothing AndAlso Not c.PessoaJuridica.CNPJ.Trim = String.Empty Then strSql += " OR EB04CNPJ LIKE '%" & c.PessoaJuridica.CNPJ & "%' "
+
+            strSql += "  ORDER BY NOME,VENDEDOR "
 
             Try
                 adpt = DaoFactory.GetDataAdapter

@@ -46,7 +46,7 @@
                                 CultureCurrencySymbolPlaceholder="" CultureDateFormat="" CultureDatePlaceholder=""
                                 CultureDecimalPlaceholder="" CultureThousandsPlaceholder="" CultureTimePlaceholder=""
                                 Enabled="True" ErrorTooltipEnabled="True" InputDirection="LeftToRight" Mask="999,999,999-99"
-                                MaskType="Date" TargetControlID="txtCPF">
+                                MaskType="None" TargetControlID="txtCPF">
                             </asp:MaskedEditExtender>     
                         <p>
                             <asp:Label ID="label3" runat="server" CssClass="lbl" Text="RG"></asp:Label>
@@ -76,7 +76,7 @@
                                 CultureCurrencySymbolPlaceholder="" CultureDateFormat="" CultureDatePlaceholder=""
                                 CultureDecimalPlaceholder="" CultureThousandsPlaceholder="" CultureTimePlaceholder=""
                                 Enabled="True" ErrorTooltipEnabled="True" InputDirection="LeftToRight" Mask="99,999,999/9999-99"
-                                MaskType="Date" TargetControlID="txtCNPJ">
+                                MaskType="None" TargetControlID="txtCNPJ">
                             </asp:MaskedEditExtender>     
                         <p>
                             <asp:Label ID="label9" runat="server" CssClass="lbl" Text="Inscrição Estadual"></asp:Label>
@@ -110,7 +110,7 @@
                                 CultureCurrencySymbolPlaceholder="" CultureDateFormat="" CultureDatePlaceholder=""
                                 CultureDecimalPlaceholder="" CultureThousandsPlaceholder="" CultureTimePlaceholder=""
                                 Enabled="True" ErrorTooltipEnabled="True" InputDirection="LeftToRight" Mask="99999-999"
-                                MaskType="Date" TargetControlID="txtCEP">
+                                MaskType="None" TargetControlID="txtCEP">
                             </asp:MaskedEditExtender>                                   
                             <p>
                                 <asp:Label ID="label19" runat="server" CssClass="lbl" Text="Data Nascimento"></asp:Label>
@@ -136,7 +136,7 @@
                                 CultureCurrencySymbolPlaceholder="" CultureDateFormat="" CultureDatePlaceholder=""
                                 CultureDecimalPlaceholder="" CultureThousandsPlaceholder="" CultureTimePlaceholder=""
                                 Enabled="True" ErrorTooltipEnabled="True" InputDirection="LeftToRight" Mask="(99) 9999-9999"
-                                MaskType="Date" TargetControlID="txtTelefoneFixo">
+                                MaskType="None" TargetControlID="txtTelefoneFixo">
                             </asp:MaskedEditExtender>    
                             <p>
                                 <asp:Label ID="label13" runat="server" CssClass="lbl" Text="Celular"></asp:Label>
@@ -147,7 +147,7 @@
                                 CultureCurrencySymbolPlaceholder="" CultureDateFormat="" CultureDatePlaceholder=""
                                 CultureDecimalPlaceholder="" CultureThousandsPlaceholder="" CultureTimePlaceholder=""
                                 Enabled="True" ErrorTooltipEnabled="True" InputDirection="LeftToRight" Mask="(99) 9999-9999"
-                                MaskType="Date" TargetControlID="txtCelular">
+                                MaskType="None" TargetControlID="txtCelular">
                             </asp:MaskedEditExtender>                                          
                             <p>
                                 <asp:Label ID="label14" runat="server" CssClass="lbl" Text="FAX"></asp:Label>
@@ -158,7 +158,7 @@
                                 CultureCurrencySymbolPlaceholder="" CultureDateFormat="" CultureDatePlaceholder=""
                                 CultureDecimalPlaceholder="" CultureThousandsPlaceholder="" CultureTimePlaceholder=""
                                 Enabled="True" ErrorTooltipEnabled="True" InputDirection="LeftToRight" Mask="(99) 9999-9999"
-                                MaskType="Date" TargetControlID="txtFax">
+                                MaskType="None" TargetControlID="txtFax">
                             </asp:MaskedEditExtender>    
                             <p>
                                 <asp:Label ID="label11" runat="server" CssClass="lbl" Text="E-mail"></asp:Label>

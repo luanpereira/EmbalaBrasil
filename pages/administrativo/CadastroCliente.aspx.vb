@@ -2,6 +2,7 @@
 Imports Camadas.Negocio
 Imports Infraestrutura.Utils
 Imports Camadas.Dominio.Administrativo
+Imports System.Data
 
 Partial Class pages_administrativo_CadastroCliente
     Inherits System.Web.UI.Page
@@ -10,8 +11,10 @@ Partial Class pages_administrativo_CadastroCliente
     Private controllerVendedor As IVendedorController = New VendedorController
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Dim id As Integer
 
         If Not IsPostBack Then
+
 
             '--LISTAR VENDEDORES -----------
             drpVendedor.DataValueField = "EB06CODIGO"
@@ -33,8 +36,52 @@ Partial Class pages_administrativo_CadastroCliente
             drpCidade.Items.Add(New ListItem("Selecione o Estado...", 0))
             '-------------------------------
 
+            Try
+                id = Integer.Parse(Request.QueryString("id"))
+                If id > 0 Then Me.listarDadosCliente(id)
+            Catch ex As Exception
+                ScriptManager.RegisterClientScriptBlock(Me.Page, Me.GetType, "Mensagem", "Mensagem('ERRO NO ID. " & ex.Message.Replace("'", "") & "'); history.back()", True)
+            End Try
+
         End If
 
+    End Sub
+
+    Private Sub listarDadosCliente(ByVal id As Integer)
+        Dim c As Camadas.Dominio.Administrativo.Cliente
+        Dim dtb As DataTable
+
+        Try
+            c = New Camadas.Dominio.Administrativo.Cliente
+            c.Codigo = id
+
+            dtb = controller.listarCliente(c)
+
+            Select Case dtb.Rows(0).Item("EB04ENDERECO").ToString
+                Case "J"
+                    Me.pnlJuridica.Visible = True
+                Case "F"
+                    Me.pnlFisica.Visible = True
+                Case Else
+
+            End Select
+
+            Me.pnlComum.Visible = True
+            Me.pnlComum2.Visible = True
+
+            txtEndereco.Text = dtb.Rows(0).Item("EB04ENDERECO").ToString
+            txtEndereco.Text = dtb.Rows(0).Item("EB04ENDERECO").ToString
+            txtEndereco.Text = dtb.Rows(0).Item("EB04ENDERECO").ToString
+            txtEndereco.Text = dtb.Rows(0).Item("EB04ENDERECO").ToString
+            txtEndereco.Text = dtb.Rows(0).Item("EB04ENDERECO").ToString
+            txtEndereco.Text = dtb.Rows(0).Item("EB04ENDERECO").ToString
+            txtEndereco.Text = dtb.Rows(0).Item("EB04ENDERECO").ToString
+            txtEndereco.Text = dtb.Rows(0).Item("EB04ENDERECO").ToString
+            txtEndereco.Text = dtb.Rows(0).Item("EB04ENDERECO").ToString
+
+        Catch ex As Exception
+            Throw ex
+        End Try
     End Sub
 
     Protected Sub rblPessoa_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles rblPessoa.SelectedIndexChanged
@@ -138,9 +185,7 @@ Partial Class pages_administrativo_CadastroCliente
 
             controller.cadastrarCliente(cliente)
 
-            ScriptManager.RegisterClientScriptBlock(Me.Page, Me.GetType, "Mensagem", "Mensagem('CLIENTE CADASTRADO COM SUCESSO.');", True)
-
-            Response.Redirect("~/pages/administrativo/ConsultarCliente.aspx")
+            ScriptManager.RegisterClientScriptBlock(Me.Page, Me.GetType, "Mensagem", "Mensagem('CLIENTE CADASTRADO COM SUCESSO.'); history.back();", True)
         Catch ex As BusinessException
             ScriptManager.RegisterClientScriptBlock(Me.Page, Me.GetType, "Mensagem", "Mensagem('" & ex.Message.Replace("'", "") & "');", True)
         Catch ex As Exception
@@ -165,5 +210,9 @@ Partial Class pages_administrativo_CadastroCliente
 
     Protected Sub chkAcesso_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkAcesso.CheckedChanged
 
+    End Sub
+
+    Protected Sub btnCancelar_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnCancelar.Click
+        Response.Redirect("~/pages/administrativo/ConsultarCliente.aspx")
     End Sub
 End Class

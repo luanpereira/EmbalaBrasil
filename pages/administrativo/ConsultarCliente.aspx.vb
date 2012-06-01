@@ -75,8 +75,12 @@ Partial Class pages_administrativo_ConsultarCliente
 
         If e.CommandName = "Pesquisar" Then
             id = gvCliente.DataKeys.Item(e.CommandArgument).Value
+            If id > 0 Then Response.Redirect("~/pages/administrativo/CadastroCliente.aspx?id=" & id)
         End If
 
     End Sub
 
+    Protected Sub gvCliente_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles gvCliente.SelectedIndexChanged
+
+    End Sub
 End Class
