@@ -24,13 +24,23 @@ Namespace Camadas.Negocio
 
                 Select Case cliente.TipoPessoa
                     Case eTipoPessoa.Física
-                        idCliente = dao.cadastrarClientePessoaFisica(cliente)
+                        If cliente.Codigo = 0 Then '-- SE FOR IGUAL A ZERO, É PORQUE É UM NOVO CLIENTE
+                            idCliente = dao.cadastrarClientePessoaFisica(cliente)
+                        Else '-- CASO CONTRÁRIO ATUALIZA
+                            dao.atualizarClientePessoaFisica(cliente)
+                        End If
+
                         u = New Usuario
                         u.Nome = cliente.PessoaFisica.Nome
                         u.Usuario = cliente.PessoaFisica.Cpf
 
                     Case eTipoPessoa.Jurídica
-                        idCliente = dao.cadastrarClientePessoaJuridica(cliente)
+                        If cliente.Codigo = 0 Then '-- SE FOR IGUAL A ZERO, É PORQUE É UM NOVO CLIENTE
+                            idCliente = dao.cadastrarClientePessoaJuridica(cliente)
+                        Else '-- CASO CONTRÁRIO ATUALIZA
+                            dao.atualizarClientePessoaJuridica(cliente)
+                        End If
+
                         u = New Usuario
                         u.Nome = cliente.PessoaJuridica.Fantasia
                         u.Usuario = cliente.PessoaJuridica.CNPJ
@@ -41,9 +51,15 @@ Namespace Camadas.Negocio
 
                 u.Cliente.Codigo = idCliente
                 u.AcessoWeb = cliente.isAcessoWeb
-                u.Senha = Seguranca.CriptografarMD5(cliente.Senha)
+                u.Senha = IIf(cliente.Senha.Trim = String.Empty, "", Seguranca.CriptografarMD5(cliente.Senha))
 
-                Seguranca.criarUsuario(u)
+                If cliente.Codigo = 0 Then '-- SE FOR IGUAL A ZERO, É PORQUE É UM NOVO USUARIO
+                    Seguranca.criarUsuario(u)
+                Else '-- CASO CONTRÁRIO ATUALIZA
+                    u.Codigo = cliente.CodigoUsuario
+                    Seguranca.atualizarDados(u)
+                    If Not u.Senha = String.Empty Then Seguranca.alterarSenha(u) '-- SE INFORMOU A SENHA, ENTAO DEVERÁ MUDÁ-LA
+                End If
 
                 '--------------------------
                 DaoFactory.TransactionCommit()

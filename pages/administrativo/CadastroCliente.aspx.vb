@@ -36,10 +36,19 @@ Partial Class pages_administrativo_CadastroCliente
             drpCidade.Items.Add(New ListItem("Selecione o Estado...", 0))
             '-------------------------------
 
+            ViewState("idUsuario") = 0
+
             Try
                 id = Integer.Parse(Request.QueryString("id"))
-                If id > 0 Then Me.listarDadosCliente(id)
+                If id > 0 Then
+                    ViewState("idCliente") = id
+                    Me.listarDadosCliente(id)
+                Else
+                    ViewState("idCliente") = 0
+                End If
+
             Catch ex As Exception
+                ViewState("idCliente") = 0
                 ScriptManager.RegisterClientScriptBlock(Me.Page, Me.GetType, "Mensagem", "Mensagem('ERRO NO ID. " & ex.Message.Replace("'", "") & "'); history.back()", True)
             End Try
 
@@ -91,6 +100,7 @@ Partial Class pages_administrativo_CadastroCliente
             drpVendedor.SelectedValue = dtb.Rows(0).Item("FK0406VENDEDOR").ToString
             txtDataNascimento.Text = Format(DateTime.Parse(dtb.Rows(0).Item("EB04DATANASCIMENTO").ToString), "dd/MM/yyyy")
             chkAcesso.Checked = IIf(dtb.Rows(0).Item("ACESSO").ToString = "1", True, False)
+            ViewState("idUsuario") = dtb.Rows(0).Item("CODIGO_USUARIO").ToString
 
         Catch ex As Exception
             Throw ex
@@ -178,6 +188,7 @@ Partial Class pages_administrativo_CadastroCliente
             End If
 
             cliente = New Camadas.Dominio.Administrativo.Cliente
+            cliente.Codigo = ViewState("idCliente")
             cliente.TipoPessoa = IIf(rblPessoa.SelectedValue = "Física", eTipoPessoa.Física, eTipoPessoa.Jurídica)
             cliente.TipoCliente = IIf(drpTipoCliente.SelectedValue = "M", eTipoCliente.Master, eTipoCliente.Comum)
             cliente.PessoaFisica = pFisica
@@ -196,10 +207,11 @@ Partial Class pages_administrativo_CadastroCliente
             cliente.isAcessoWeb = chkAcesso.Checked
             cliente.Senha = txtSenha.Text
             cliente.DataNascimento = Format(DateTime.Parse(txtDataNascimento.Text), "yyyy-MM-dd")
+            cliente.CodigoUsuario = ViewState("idUsuario")
 
             controller.cadastrarCliente(cliente)
 
-            ScriptManager.RegisterClientScriptBlock(Me.Page, Me.GetType, "Mensagem", "Mensagem('CLIENTE CADASTRADO COM SUCESSO.'); history.back();", True)
+            ScriptManager.RegisterClientScriptBlock(Me.Page, Me.GetType, "Mensagem", "Mensagem('CLIENTE ATUALIZADO COM SUCESSO.'); history.back();", True)
         Catch ex As BusinessException
             ScriptManager.RegisterClientScriptBlock(Me.Page, Me.GetType, "Mensagem", "Mensagem('" & ex.Message.Replace("'", "") & "');", True)
         Catch ex As Exception

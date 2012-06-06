@@ -206,4 +206,43 @@ Public Class Seguranca
 
     End Sub
 
+    Public Shared Sub alterarSenha(ByVal u As Usuario)
+
+        strSql = "  UPDATE eb96usuario SET "
+        strSql += " EB96SENHA='" & u.Senha & "' "
+        strSql += " WHERE EB96CODIGO =  " & u.Codigo
+
+        Try
+
+            cmd = DaoFactory.GetConnection.CreateCommand
+            cmd.Transaction = DaoFactory.GetCurrentTransaction
+            cmd.CommandText = strSql
+            cmd.ExecuteNonQuery()
+
+        Catch ex As Exception
+            Throw New DAOException("NÃO FOI POSSÍVEL ALTERAR A SENHA >>> " & ex.Message)
+        End Try
+
+    End Sub
+
+    Public Shared Sub atualizarDados(ByVal u As Usuario)
+
+        strSql = "  UPDATE eb96usuario SET "
+        strSql += " EB96NOME = '" & u.Nome & "',"
+        strSql += " EB96USUARIO = '" & u.Usuario & "',"
+        strSql += " EB96ACESSOWEB = " & IIf(u.AcessoWeb, 1, 0)
+        strSql += " WHERE EB96CODIGO = " & u.Codigo
+
+        Try
+
+            cmd = DaoFactory.GetConnection.CreateCommand
+            cmd.Transaction = DaoFactory.GetCurrentTransaction
+            cmd.CommandText = strSql
+            cmd.ExecuteNonQuery()
+
+        Catch ex As Exception
+            Throw New DAOException("NÃO FOI POSSÍVEL ATULIZAR O USUÁRIO >>> " & ex.Message)
+        End Try
+
+    End Sub
 End Class

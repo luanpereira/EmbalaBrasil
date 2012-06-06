@@ -61,6 +61,32 @@ Namespace Camadas.DAO
             End Try
         End Function
 
+        Public Sub atualizarClientePessoaFisica(ByVal cliente As Cliente) Implements IClienteDAO.atualizarClientePessoaFisica
+
+            strSql = "  UPDATE eb04cliente SET EB04NOME='" & cliente.PessoaFisica.Nome & "',EB04CPF='" & cliente.PessoaFisica.Cpf & "',EB04RG='" & cliente.PessoaFisica.Rg & "',"
+            strSql += " EB04DATANASCIMENTO='" & cliente.DataNascimento & "',EB04ENDERECO='" & cliente.Endereco.Logradouro & "',FK0498CIDADEUF=" & IIf(cliente.Endereco.Cidade.Codigo = 0, "NULL", cliente.Endereco.Cidade.Codigo) & ","
+            strSql += " EB04CEP='" & cliente.Endereco.Cep & "',EB04EMAIL='" & cliente.Contato.Email & "',EB04CELULAR='" & cliente.Contato.FoneCelular & "',EB04FONEFIXO='" & cliente.Contato.FoneResidencial & "',"
+            strSql += " EB04FAX='" & cliente.Contato.Fax & "',FK0406VENDEDOR=" & IIf(cliente.Vendedor.Codigo = 0, "NULL", cliente.Vendedor.Codigo) & ","
+            strSql += " EB04TIPOPESSOA='F',EB04TIPOCLIENTE='" & IIf(cliente.TipoCliente = eTipoCliente.Comum, "C", "M") & "' "
+            strSql += " WHERE EB04CODIGO = " & cliente.Codigo
+
+            Try
+                cmd = conn.CreateCommand
+                cmd.Transaction = DaoFactory.GetCurrentTransaction
+                cmd.CommandText = strSql
+                cmd.ExecuteNonQuery()
+
+                '===========LOG===========
+                Seguranca.GravarLog(usuario, "U", "EB04", strSql)
+                '=========================
+
+            Catch ex As OleDbException
+                Throw New DAOException(ex.Message)
+            Catch ex As Exception
+                Throw New DAOException(ex.Message)
+            End Try
+        End Sub
+
         Public Function cadastrarClientePessoaJuridica(ByVal cliente As Cliente) As Integer Implements IClienteDAO.cadastrarClientePessoaJuridica
             Dim result As Integer
 
@@ -95,6 +121,30 @@ Namespace Camadas.DAO
             End Try
         End Function
 
+        Public Sub atualizarClientePessoaJuridica(ByVal cliente As Cliente) Implements IClienteDAO.atualizarClientePessoaJuridica
+
+            strSql = " INSERT INTO eb04cliente (EB04DATANASCIMENTO,EB04CNPJ,EB04RAZAOSOCIAL,EB04FANTASIA,EB04INSCRICAOESTADUAL,EB04ENDERECO,FK0498CIDADEUF,EB04CEP,EB04EMAIL,EB04CELULAR,EB04FONEFIXO,EB04FAX,FK0406VENDEDOR,EB04TIPOPESSOA,EB04TIPOCLIENTE) "
+            strSql += " VALUES('" & cliente.DataNascimento & "','" & cliente.PessoaJuridica.CNPJ & "','" & cliente.PessoaJuridica.RazaoSocial & "','" & cliente.PessoaJuridica.Fantasia & "','" & cliente.PessoaJuridica.InscricaoEstadual & "','" & cliente.Endereco.Logradouro & "',"
+            strSql += IIf(cliente.Endereco.Cidade.Codigo = 0, "NULL", cliente.Endereco.Cidade.Codigo) & ",'" & cliente.Endereco.Cep & "','" & cliente.Contato.Email & "','" & cliente.Contato.FoneCelular & "','"
+            strSql += cliente.Contato.FoneResidencial & "','" & cliente.Contato.Fax & "'," & IIf(cliente.Vendedor.Codigo = 0, "NULL", cliente.Vendedor.Codigo) & ",'J','"
+            strSql += IIf(cliente.TipoCliente = eTipoCliente.Comum, "C", "M") & "')"
+
+            Try
+                cmd = conn.CreateCommand
+                cmd.Transaction = DaoFactory.GetCurrentTransaction
+                cmd.CommandText = strSql
+                cmd.ExecuteNonQuery()
+
+                '===========LOG===========
+                Seguranca.GravarLog(usuario, "U", "EB04", strSql)
+                '=========================
+            Catch ex As OleDbException
+                Throw New DAOException(ex.Message)
+            Catch ex As Exception
+                Throw New DAOException(ex.Message)
+            End Try
+        End Sub
+
         Public Function listarCliente() As DataTable Implements IClienteDAO.listarCliente
             Dim ds As New DataSet
 
@@ -114,7 +164,8 @@ Namespace Camadas.DAO
             strSql += "        (SELECT EB99CODIGO FROM EB99ESTADO, EB98CIDADE WHERE FK9899ESTADO=EB99CODIGO AND EB98CODIGO=FK0498CIDADEUF) AS CODIGO_UF, "
             strSql += "        (SELECT EB99SIGLA FROM EB99ESTADO, EB98CIDADE WHERE FK9899ESTADO=EB99CODIGO AND EB98CODIGO=FK0498CIDADEUF) AS SIGLA_UF, "
             strSql += "        (SELECT EB98NOME FROM EB98CIDADE WHERE EB98CODIGO=FK0498CIDADEUF) AS CIDADE, "
-            strSql += "        (SELECT EB96ACESSOWEB FROM EB96USUARIO WHERE FK9604CLIENTE=EB04CODIGO) AS ACESSO "
+            strSql += "        (SELECT EB96ACESSOWEB FROM EB96USUARIO WHERE FK9604CLIENTE=EB04CODIGO) AS ACESSO, "
+            strSql += "        (SELECT EB96CODIGO FROM EB96USUARIO WHERE FK9604CLIENTE=EB04CODIGO) AS CODIGO_USUARIO "
             strSql += "   FROM EB04CLIENTE "
             strSql += "  ORDER BY NOME,VENDEDOR "
 
@@ -150,7 +201,8 @@ Namespace Camadas.DAO
             strSql += "        (SELECT EB99CODIGO FROM EB99ESTADO, EB98CIDADE WHERE FK9899ESTADO=EB99CODIGO AND EB98CODIGO=FK0498CIDADEUF) AS CODIGO_UF, "
             strSql += "        (SELECT EB99SIGLA FROM EB99ESTADO, EB98CIDADE WHERE FK9899ESTADO=EB99CODIGO AND EB98CODIGO=FK0498CIDADEUF) AS SIGLA_UF, "
             strSql += "        (SELECT EB98NOME FROM EB98CIDADE WHERE EB98CODIGO=FK0498CIDADEUF) AS CIDADE, "
-            strSql += "        (SELECT EB96ACESSOWEB FROM EB96USUARIO WHERE FK9604CLIENTE=EB04CODIGO) AS ACESSO "
+            strSql += "        (SELECT EB96ACESSOWEB FROM EB96USUARIO WHERE FK9604CLIENTE=EB04CODIGO) AS ACESSO, "
+            strSql += "        (SELECT EB96CODIGO FROM EB96USUARIO WHERE FK9604CLIENTE=EB04CODIGO) AS CODIGO_USUARIO "
             strSql += "    FROM EB04CLIENTE "
 
             If c.Codigo > 0 Then strSql += " WHERE EB04CODIGO = " & c.Codigo
