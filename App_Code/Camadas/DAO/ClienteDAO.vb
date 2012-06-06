@@ -30,8 +30,8 @@ Namespace Camadas.DAO
         Public Function cadastrarClientePessoaFisica(ByVal cliente As Cliente) As Integer Implements IClienteDAO.cadastrarClientePessoaFisica
             Dim result As Integer
 
-            strSql = " INSERT INTO eb04cliente (EB04NOME,EB04CPF,EB04RG,EB04ENDERECO,FK0498CIDADEUF,EB04CEP,EB04EMAIL,EB04CELULAR,EB04FONEFIXO,EB04FAX,FK0406VENDEDOR,EB04TIPOPESSOA,EB04TIPOCLIENTE) "
-            strSql += " VALUES('" & cliente.PessoaFisica.Nome & "','" & cliente.PessoaFisica.Cpf & "','" & cliente.PessoaFisica.Rg & "','" & cliente.Endereco.Logradouro & "',"
+            strSql = " INSERT INTO eb04cliente (EB04NOME,EB04CPF,EB04RG,EB04DATANASCIMENTO,EB04ENDERECO,FK0498CIDADEUF,EB04CEP,EB04EMAIL,EB04CELULAR,EB04FONEFIXO,EB04FAX,FK0406VENDEDOR,EB04TIPOPESSOA,EB04TIPOCLIENTE) "
+            strSql += " VALUES('" & cliente.PessoaFisica.Nome & "','" & cliente.PessoaFisica.Cpf & "','" & cliente.PessoaFisica.Rg & "','" & cliente.DataNascimento & "','" & cliente.Endereco.Logradouro & "',"
             strSql += IIf(cliente.Endereco.Cidade.Codigo = 0, "NULL", cliente.Endereco.Cidade.Codigo) & ",'" & cliente.Endereco.Cep & "','" & cliente.Contato.Email & "','" & cliente.Contato.FoneCelular & "','"
             strSql += cliente.Contato.FoneResidencial & "','" & cliente.Contato.Fax & "'," & IIf(cliente.Vendedor.Codigo = 0, "NULL", cliente.Vendedor.Codigo) & ",'F','"
             strSql += IIf(cliente.TipoCliente = eTipoCliente.Comum, "C", "M") & "')"
@@ -64,8 +64,8 @@ Namespace Camadas.DAO
         Public Function cadastrarClientePessoaJuridica(ByVal cliente As Cliente) As Integer Implements IClienteDAO.cadastrarClientePessoaJuridica
             Dim result As Integer
 
-            strSql = " INSERT INTO eb04cliente (EB04CNPJ,EB04RAZAOSOCIAL,EB04FANTASIA,EB04INSCRICAOESTADUAL,EB04ENDERECO,FK0498CIDADEUF,EB04CEP,EB04EMAIL,EB04CELULAR,EB04FONEFIXO,EB04FAX,FK0406VENDEDOR,EB04TIPOPESSOA,EB04TIPOCLIENTE) "
-            strSql += " VALUES('" & cliente.PessoaJuridica.CNPJ & "','" & cliente.PessoaJuridica.RazaoSocial & "','" & cliente.PessoaJuridica.Fantasia & "','" & cliente.PessoaJuridica.InscricaoEstadual & "','" & cliente.Endereco.Logradouro & "',"
+            strSql = " INSERT INTO eb04cliente (EB04DATANASCIMENTO,EB04CNPJ,EB04RAZAOSOCIAL,EB04FANTASIA,EB04INSCRICAOESTADUAL,EB04ENDERECO,FK0498CIDADEUF,EB04CEP,EB04EMAIL,EB04CELULAR,EB04FONEFIXO,EB04FAX,FK0406VENDEDOR,EB04TIPOPESSOA,EB04TIPOCLIENTE) "
+            strSql += " VALUES('" & cliente.DataNascimento & "','" & cliente.PessoaJuridica.CNPJ & "','" & cliente.PessoaJuridica.RazaoSocial & "','" & cliente.PessoaJuridica.Fantasia & "','" & cliente.PessoaJuridica.InscricaoEstadual & "','" & cliente.Endereco.Logradouro & "',"
             strSql += IIf(cliente.Endereco.Cidade.Codigo = 0, "NULL", cliente.Endereco.Cidade.Codigo) & ",'" & cliente.Endereco.Cep & "','" & cliente.Contato.Email & "','" & cliente.Contato.FoneCelular & "','"
             strSql += cliente.Contato.FoneResidencial & "','" & cliente.Contato.Fax & "'," & IIf(cliente.Vendedor.Codigo = 0, "NULL", cliente.Vendedor.Codigo) & ",'J','"
             strSql += IIf(cliente.TipoCliente = eTipoCliente.Comum, "C", "M") & "')"
@@ -110,7 +110,11 @@ Namespace Camadas.DAO
             strSql += "          EB04CPF "
             strSql += "        END AS CPF_CNPJ, "
             strSql += "        (SELECT EB06NOME FROM EB06VENDEDOR WHERE EB06CODIGO=FK0406VENDEDOR) AS VENDEDOR, "
-            strSql += "        CONCAT(EB04CELULAR,'/',EB04FONEFIXO,'/',EB04FAX) AS TELEFONE "
+            strSql += "        CONCAT(EB04CELULAR,'/',EB04FONEFIXO,'/',EB04FAX) AS TELEFONE, "
+            strSql += "        (SELECT EB99CODIGO FROM EB99ESTADO, EB98CIDADE WHERE FK9899ESTADO=EB99CODIGO AND EB98CODIGO=FK0498CIDADEUF) AS CODIGO_UF, "
+            strSql += "        (SELECT EB99SIGLA FROM EB99ESTADO, EB98CIDADE WHERE FK9899ESTADO=EB99CODIGO AND EB98CODIGO=FK0498CIDADEUF) AS SIGLA_UF, "
+            strSql += "        (SELECT EB98NOME FROM EB98CIDADE WHERE EB98CODIGO=FK0498CIDADEUF) AS CIDADE, "
+            strSql += "        (SELECT EB96ACESSOWEB FROM EB96USUARIO WHERE FK9604CLIENTE=EB04CODIGO) AS ACESSO "
             strSql += "   FROM EB04CLIENTE "
             strSql += "  ORDER BY NOME,VENDEDOR "
 
@@ -142,7 +146,11 @@ Namespace Camadas.DAO
             strSql += "          EB04CPF "
             strSql += "        END AS CPF_CNPJ, "
             strSql += "        (SELECT EB06NOME FROM EB06VENDEDOR WHERE EB06CODIGO=FK0406VENDEDOR) AS VENDEDOR, "
-            strSql += "        CONCAT(EB04CELULAR,'/',EB04FONEFIXO,'/',EB04FAX) AS TELEFONE "
+            strSql += "        CONCAT(EB04CELULAR,'/',EB04FONEFIXO,'/',EB04FAX) AS TELEFONE, "
+            strSql += "        (SELECT EB99CODIGO FROM EB99ESTADO, EB98CIDADE WHERE FK9899ESTADO=EB99CODIGO AND EB98CODIGO=FK0498CIDADEUF) AS CODIGO_UF, "
+            strSql += "        (SELECT EB99SIGLA FROM EB99ESTADO, EB98CIDADE WHERE FK9899ESTADO=EB99CODIGO AND EB98CODIGO=FK0498CIDADEUF) AS SIGLA_UF, "
+            strSql += "        (SELECT EB98NOME FROM EB98CIDADE WHERE EB98CODIGO=FK0498CIDADEUF) AS CIDADE, "
+            strSql += "        (SELECT EB96ACESSOWEB FROM EB96USUARIO WHERE FK9604CLIENTE=EB04CODIGO) AS ACESSO "
             strSql += "    FROM EB04CLIENTE "
 
             If c.Codigo > 0 Then strSql += " WHERE EB04CODIGO = " & c.Codigo

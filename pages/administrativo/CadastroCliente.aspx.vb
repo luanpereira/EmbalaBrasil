@@ -57,27 +57,40 @@ Partial Class pages_administrativo_CadastroCliente
 
             dtb = controller.listarCliente(c)
 
-            Select Case dtb.Rows(0).Item("EB04ENDERECO").ToString
+            Select Case dtb.Rows(0).Item("EB04TIPOPESSOA").ToString
                 Case "J"
                     Me.pnlJuridica.Visible = True
+                    Me.rblPessoa.Items(0).Selected = True
                 Case "F"
                     Me.pnlFisica.Visible = True
+                    Me.rblPessoa.Items(1).Selected = True
                 Case Else
 
             End Select
 
+            Me.rblPessoa.Enabled = False
             Me.pnlComum.Visible = True
             Me.pnlComum2.Visible = True
+            Me.pnlOutras.Visible = True
 
+            drpTipoCliente.SelectedValue = dtb.Rows(0).Item("EB04TIPOCLIENTE").ToString
+            drpTipoCliente_SelectedIndexChanged(Nothing, Nothing)
+            txtNome.Text = dtb.Rows(0).Item("EB04NOME").ToString
+            txtCPF.Text = dtb.Rows(0).Item("EB04CPF").ToString
+            txtRg.Text = dtb.Rows(0).Item("EB04RG").ToString
             txtEndereco.Text = dtb.Rows(0).Item("EB04ENDERECO").ToString
-            txtEndereco.Text = dtb.Rows(0).Item("EB04ENDERECO").ToString
-            txtEndereco.Text = dtb.Rows(0).Item("EB04ENDERECO").ToString
-            txtEndereco.Text = dtb.Rows(0).Item("EB04ENDERECO").ToString
-            txtEndereco.Text = dtb.Rows(0).Item("EB04ENDERECO").ToString
-            txtEndereco.Text = dtb.Rows(0).Item("EB04ENDERECO").ToString
-            txtEndereco.Text = dtb.Rows(0).Item("EB04ENDERECO").ToString
-            txtEndereco.Text = dtb.Rows(0).Item("EB04ENDERECO").ToString
-            txtEndereco.Text = dtb.Rows(0).Item("EB04ENDERECO").ToString
+            drpUF.SelectedValue = dtb.Rows(0).Item("CODIGO_UF").ToString
+            drpUF_SelectedIndexChanged(Nothing, Nothing)
+            drpCidade.SelectedValue = dtb.Rows(0).Item("FK0498CIDADEUF").ToString
+            txtCEP.Text = dtb.Rows(0).Item("EB04CEP").ToString
+            txtDataNascimento.Text = dtb.Rows(0).Item("EB04DATANASCIMENTO").ToString
+            txtTelefoneFixo.Text = dtb.Rows(0).Item("EB04FONEFIXO").ToString
+            txtCelular.Text = dtb.Rows(0).Item("EB04CELULAR").ToString
+            txtFax.Text = dtb.Rows(0).Item("EB04FAX").ToString
+            txtEmail.Text = dtb.Rows(0).Item("EB04EMAIL").ToString
+            drpVendedor.SelectedValue = dtb.Rows(0).Item("FK0406VENDEDOR").ToString
+            txtDataNascimento.Text = Format(DateTime.Parse(dtb.Rows(0).Item("EB04DATANASCIMENTO").ToString), "dd/MM/yyyy")
+            chkAcesso.Checked = IIf(dtb.Rows(0).Item("ACESSO").ToString = "1", True, False)
 
         Catch ex As Exception
             Throw ex
@@ -182,6 +195,7 @@ Partial Class pages_administrativo_CadastroCliente
             cliente.Vendedor.Codigo = drpVendedor.SelectedValue
             cliente.isAcessoWeb = chkAcesso.Checked
             cliente.Senha = txtSenha.Text
+            cliente.DataNascimento = Format(DateTime.Parse(txtDataNascimento.Text), "yyyy-MM-dd")
 
             controller.cadastrarCliente(cliente)
 
