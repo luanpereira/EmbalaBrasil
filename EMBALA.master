@@ -50,7 +50,8 @@
                             <asp:MenuItem Text="Caixa" Value="Caixa"></asp:MenuItem>
                         </asp:MenuItem>
                         <asp:MenuItem Text="Estoque" Value="Estoque">
-                            <asp:MenuItem Text="Produto" Value="Produto"></asp:MenuItem>
+                            <asp:MenuItem Text="Produto" Value="Produto" 
+                                NavigateUrl="~/pages/estoque/Produto.aspx"></asp:MenuItem>
                             <asp:MenuItem Text="Estoque" Value="Estoque"></asp:MenuItem>
                         </asp:MenuItem>
                     </Items>
