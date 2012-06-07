@@ -632,51 +632,74 @@ function ValidaCPF(Obj){
 	return true; 
 }
 
-//ValidaÁ„o de CPF
-function ValidaCPFCNPJ(Obj){ 
-	var i; 	  
-	var strObj = Obj.value.replace('.','').replace('.','').replace('-','')
-	var c = strObj.substr(0,9); 	  
-	var dv = strObj.substr(9,2);	  
-	var d1 = 0; 
+function ValidaCnpj(c) {
 
-    if (strObj == '___________' || strObj == ''){return true} //CAMPO VAZIO. M√ÅSCARA.
-    
-    
-	for (i = 0; i < 9; i++) {d1 += c.charAt(i)*(10-i);} 
-	  
-	if (d1 == 0){ 
-		alert("CPF Incorreto! Verifique...") 		
-		Obj.className='obrigatorio';
-		return false; 
-	} 
-	  
-	d1 = 11 - (d1 % 11); 
-	  
-	if (d1 > 9) d1 = 0; 
-	  
-	if (dv.charAt(0) != d1) { 
-		alert("CPF Incorreto! Verifique...") 		  
-		Obj.className='obrigatorio';
-		return false; 
-	} 
-		  
-	d1 *= 2; 
-	  
-	for (i = 0; i < 9; i++) {d1 += c.charAt(i)*(11-i);} 
-	  
-	d1 = 11 - (d1 % 11); 
-	  
-	if (d1 > 9) d1 = 0; 
-	  
-	if (dv.charAt(1) != d1) { 
-		alert("CPF Incorreto! Verifique...") 
-	    Obj.className='obrigatorio';
-		return false; 
-	} 
-	  
-	return true; 
-}
+     var numeros, digitos, soma, i, resultado, pos, tamanho, digitos_iguais, cnpj = c.value.replace(/\D+/g, '');
+     digitos_iguais = 1;
+
+     if (cnpj == ''){return true} //CAMPO VAZIO. M√ÅSCARA.
+
+    if (cnpj.length != 14) 
+            {
+                 alert('CNPJ incorreto. Verifique...');
+                 c.focus();
+                 return false;
+                 }
+
+     for (i = 0; i < cnpj.length - 1; i++)
+           if (cnpj.charAt(i) != cnpj.charAt(i + 1))
+                 {
+                 digitos_iguais = 0;
+                 break;
+                 }
+     if (!digitos_iguais)
+           {
+           tamanho = cnpj.length - 2
+           numeros = cnpj.substring(0,tamanho);
+           digitos = cnpj.substring(tamanho);
+           soma = 0;
+           pos = tamanho - 7;
+           for (i = tamanho; i >= 1; i--)
+                 {
+                 soma += numeros.charAt(tamanho - i) * pos--;
+                 if (pos < 2)
+                       pos = 9;
+                 }
+           resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+           if (resultado != digitos.charAt(0))
+{
+                 alert('CNPJ incorreto. Verifique...');
+                 c.focus();
+                 return false;
+                 }
+
+           tamanho = tamanho + 1;
+           numeros = cnpj.substring(0,tamanho);
+           soma = 0;
+           pos = tamanho - 7;
+           for (i = tamanho; i >= 1; i--)
+                 {
+                 soma += numeros.charAt(tamanho - i) * pos--;
+                 if (pos < 2)
+                       pos = 9;
+                 }
+           resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+           if (resultado != digitos.charAt(1)){
+                 alert('CNPJ incorreto. Verifique...');
+                 c.focus();
+                 return false;
+                 }
+           else {
+     // alert('CNPJ  OK !');
+            return true;
+            }
+           }
+     else{
+           alert('CNPJ incorreto. Verifique...');
+           c.focus();
+           return false;
+           }
+     } 
 
 
 function CalcularIMC(peso,altura,imc){

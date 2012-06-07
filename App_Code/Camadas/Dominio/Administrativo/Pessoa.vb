@@ -5,6 +5,7 @@ Namespace Camadas.Dominio.Administrativo
     Public MustInherit Class Pessoa
 
         Public Property Codigo() As Integer
+        Public Property CodigoUsuario() As Integer
         Public Property Endereco() As New Endereco
         Public Property Contato() As New Contato
         Public Property Senha() As String

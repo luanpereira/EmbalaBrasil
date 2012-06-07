@@ -1,4 +1,4 @@
-﻿<%@ Page Language="VB" MasterPageFile="~/EMBALA.master" AutoEventWireup="false" CodeFile="CadastroCliente.aspx.vb" Inherits="pages_administrativo_CadastroCliente" %>
+﻿<%@ Page Language="VB" MasterPageFile="~/EMBALA.master" AutoEventWireup="false" CodeFile="CadastroVendedor.aspx.vb" Inherits="pages_administrativo_CadastroCliente" %>
 
 <%@ Register assembly="AjaxControlToolkit" namespace="AjaxControlToolkit" tagprefix="asp" %>
 
@@ -9,28 +9,10 @@
             </asp:ToolkitScriptManager>
             <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                 <ContentTemplate>
-                <h2>Cadastrar novo Cliente</h2>
-                <fieldset>
-                    <legend>Qual Tipo de Pessoa?</legend>
-                    <asp:RadioButtonList ID="rblPessoa" runat="server" AutoPostBack="True" 
-                        RepeatDirection="Horizontal" Width="203px">
-                        <asp:ListItem>Jurídica</asp:ListItem>
-                        <asp:ListItem>Física</asp:ListItem>
-                    </asp:RadioButtonList>
-                    <p>
-                        <asp:Label ID="label17" runat="server" CssClass="lbl" Text="Tipo do Cliente" 
-                            ForeColor="#FC0000"></asp:Label>
-                        <asp:DropDownList ID="drpTipoCliente" runat="server" AutoPostBack="True" >
-                            <asp:ListItem Value="0">Selecione...</asp:ListItem>
-                            <asp:ListItem Value="M">Cliente Master - Compra direto da empresa</asp:ListItem>
-                            <asp:ListItem Value="C">Cliente Comum - Compra por meio de um vendedor.</asp:ListItem>
-                        </asp:DropDownList>
-                    </p>
-                </fieldset>
-
-                <fieldset>
+                <h2>Cadastrar novo Vendedor</h2>
+                &nbsp;<fieldset>
                     <legend>Dados Pessoais</legend>
-                    <asp:Panel ID="pnlFisica" runat="server" Height="124px" Visible="False">
+                    <asp:Panel ID="pnlFisica" runat="server" Height="124px">
                         <p>
                             <asp:Label ID="label" runat="server" Text="Nome" CssClass="lbl" 
                                 ForeColor="#FC0000"></asp:Label>
@@ -55,38 +37,7 @@
                         </p>                    
                     </asp:Panel>                
             
-                    <asp:Panel ID="pnlJuridica" runat="server" Height="168px" Visible="False">
-                        <p>
-                            <asp:Label ID="label1" runat="server" Text="Razão Social" CssClass="lbl" 
-                                ForeColor="#FC0000"></asp:Label>
-                            <asp:TextBox ID="txtRazaoSocial" runat="server" CssClass="texto" MaxLength="45"></asp:TextBox>
-                        </p>
-                        <p>
-                            <asp:Label ID="label8" runat="server" Text="Fantasia" CssClass="lbl" 
-                                ForeColor="#FC0000"></asp:Label>
-                            <asp:TextBox ID="txtFantasia" runat="server" CssClass="texto" MaxLength="45"></asp:TextBox>
-                        </p>
-                        <p>
-                            <asp:Label ID="label7" runat="server" CssClass="lbl" Text="CNPJ" 
-                                ForeColor="#FC0000"></asp:Label>
-                            <asp:TextBox ID="txtCNPJ" runat="server" CssClass="texto" Width="150px" 
-                                MaxLength="18"></asp:TextBox>
-                        </p>
-                            <asp:MaskedEditExtender ID="MaskedEditExtender6" runat="server" CultureAMPMPlaceholder=""
-                                CultureCurrencySymbolPlaceholder="" CultureDateFormat="" CultureDatePlaceholder=""
-                                CultureDecimalPlaceholder="" CultureThousandsPlaceholder="" CultureTimePlaceholder=""
-                                Enabled="True" ErrorTooltipEnabled="True" InputDirection="LeftToRight" Mask="99,999,999/9999-99"
-                                MaskType="None" TargetControlID="txtCNPJ">
-                            </asp:MaskedEditExtender>     
-                        <p>
-                            <asp:Label ID="label9" runat="server" CssClass="lbl" Text="Inscrição Estadual"></asp:Label>
-                            <asp:TextBox ID="txtInscEstadual" runat="server" CssClass="texto" Width="150px" 
-                                MaxLength="20"></asp:TextBox>
-                        </p>
-                    </asp:Panel>            
-            
-                    <asp:Panel ID="pnlComum" runat="server" Height="220px" Width="943px" 
-                        Visible="False">
+                    <asp:Panel ID="pnlComum" runat="server" Height="220px" Width="943px">
                         <asp:Panel ID="pnlComum2" runat="server" Height="210px" Width="494px" 
                             style="float:left;">
                             <p>
@@ -170,14 +121,8 @@
                     </asp:Panel>           
                 </fieldset>
                 <fieldset>
-                    <legend>Outras Informaçõesões</legend>
-                    <asp:Panel ID="pnlOutras" runat="server" Height="168px" Visible="False">
-                        <p>
-                            <asp:Label ID="label18" runat="server" CssClass="lbl" Text="Vendedor" 
-                                ForeColor="#FC0000"></asp:Label>
-                            <asp:DropDownList ID="drpVendedor" runat="server" AutoPostBack="True" 
-                                Enabled="False"></asp:DropDownList>
-                        </p>    
+                    <legend>Outras Informações</legend>
+                    <asp:Panel ID="pnlOutras" runat="server" Height="168px">
                         <p>
                             <asp:Label ID="label15" runat="server" CssClass="lbl" Text="Acesso WEB"></asp:Label>
                             <asp:CheckBox ID="chkAcesso" runat="server" />
@@ -187,6 +132,52 @@
                             <asp:TextBox ID="txtSenha" runat="server" CssClass="texto" TextMode="Password" 
                                 Width="150px" MaxLength="10"></asp:TextBox>
                         </p>  
+                        <%--<fieldset>
+                            <legend>Rota - Cidades de Atendimento</legend>
+                            <p>
+                                <asp:Label ID="label1" runat="server" CssClass="lbl" Text="UF"></asp:Label>
+                                <asp:DropDownList ID="drpUfRota" runat="server" AutoPostBack="True" ></asp:DropDownList>
+                            </p>                    
+                            <p>
+                                <asp:Label ID="label7" runat="server" CssClass="lbl" Text="Cidade"></asp:Label>
+                                <asp:DropDownList ID="drpCidadeRota" runat="server" AutoPostBack="True" ></asp:DropDownList>
+                                <asp:Button ID="btnAddRota" runat="server" CssClass="botaoForm add" Text="Adicionar" />
+                            </p>   
+                            <p>
+                                <asp:GridView ID="gvRota" runat="server" AutoGenerateColumns="False" 
+                                    CellPadding="4" ForeColor="#333333" GridLines="None" ShowFooter="True" 
+                                    Width="563px" DataKeyNames="EB10CODIGO" >
+                                    <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
+                                    <Columns>
+                                        <asp:ButtonField ButtonType="Image" CommandName="Excluir" 
+                                            DataTextField="EB10CODIGO" ImageUrl="~/recursos/Images/cancel.png">
+                                        <ItemStyle Width="10px" />
+                                        </asp:ButtonField>
+                                        <asp:BoundField DataField="EB99SIGLA" HeaderText="Estado" >
+                                        <HeaderStyle HorizontalAlign="Left" />
+                                            <ItemStyle Width="50px" />
+                                        </asp:BoundField>
+                                        <asp:BoundField DataField="EB98NOME" HeaderText="Cidade" >
+                                        <HeaderStyle HorizontalAlign="Left" />
+                                        </asp:BoundField>
+                                    </Columns>
+                                    <EditRowStyle BackColor="#999999" />
+                                    <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                                    <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                                    <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+                                    <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+                                    <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+                                    <SortedAscendingCellStyle BackColor="#E9E7E2" />
+                                    <SortedAscendingHeaderStyle BackColor="#506C8C" />
+                                    <SortedDescendingCellStyle BackColor="#FFFDF8" />
+                                    <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
+                                    <SortedAscendingCellStyle BackColor="#E9E7E2" />
+                                    <SortedAscendingHeaderStyle BackColor="#506C8C" />
+                                    <SortedDescendingCellStyle BackColor="#FFFDF8" />
+                                    <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
+                                </asp:GridView>
+                            </p>
+                        </fieldset> --%>
                     </asp:Panel> 
                 </fieldset> 
                 <p style="float: right">

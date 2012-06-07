@@ -49,6 +49,7 @@ Namespace Camadas.Negocio
                         Throw New Exception("O TIPO DE PESSOA NÃO FOI DEFINIDO.")
                 End Select
 
+                u.Tipo = eTipo.Cliente
                 u.Cliente.Codigo = idCliente
                 u.AcessoWeb = cliente.isAcessoWeb
                 u.Senha = IIf(cliente.Senha.Trim = String.Empty, "", Seguranca.CriptografarMD5(cliente.Senha))
@@ -56,6 +57,7 @@ Namespace Camadas.Negocio
                 If cliente.Codigo = 0 Then '-- SE FOR IGUAL A ZERO, É PORQUE É UM NOVO USUARIO
                     Seguranca.criarUsuario(u)
                 Else '-- CASO CONTRÁRIO ATUALIZA
+                    If cliente.CodigoUsuario = 0 Then Throw New BusinessException("CÓDIGO DE USUÁRIO INVÁLIDO. ENTRAR EM CONTATO COM O SUPORTE.")
                     u.Codigo = cliente.CodigoUsuario
                     Seguranca.atualizarDados(u)
                     If Not u.Senha = String.Empty Then Seguranca.alterarSenha(u) '-- SE INFORMOU A SENHA, ENTAO DEVERÁ MUDÁ-LA

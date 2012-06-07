@@ -12,14 +12,22 @@ Partial Class pages_administrativo_CadastroCliente
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Dim id As Integer
+        Dim v As Camadas.Dominio.Administrativo.Vendedor
 
         If Not IsPostBack Then
+            Me.txtNome.Attributes.Add("onkeypress", "return ValidarEntrada(event, '3')")
+            Me.txtRazaoSocial.Attributes.Add("onkeypress", "return ValidarEntrada(event, '3')")
+            Me.txtFantasia.Attributes.Add("onkeypress", "return ValidarEntrada(event, '3')")
+            Me.txtEndereco.Attributes.Add("onkeypress", "return ValidarEntrada(event, '3')")
+            'Me.txtCPF.Attributes.Add("onblur", "return ValidaCPF(this);")
+            'Me.txtCNPJ.Attributes.Add("onblur", "return ValidaCnpj(this);")
 
+            v = New Camadas.Dominio.Administrativo.Vendedor
 
             '--LISTAR VENDEDORES -----------
             drpVendedor.DataValueField = "EB06CODIGO"
             drpVendedor.DataTextField = "EB06NOME"
-            drpVendedor.DataSource = controllerVendedor.listarVendedor
+            drpVendedor.DataSource = controllerVendedor.listarVendedor(v)
             drpVendedor.DataBind()
             drpVendedor.Items.Add(New ListItem("Selecione...", 0))
             drpVendedor.SelectedValue = 0
@@ -154,12 +162,21 @@ Partial Class pages_administrativo_CadastroCliente
                 Throw New BusinessException("VOCÊ DEVE SELECIONAR UM TIPO DE CLIENTE.")
             End If
 
+            If txtDataNascimento.Text = String.Empty Then
+                Throw New BusinessException("O CAMPO DATA DE NASCIMENTO É OBRIGATÓRIO")
+            End If
+
+            If Not IsNumeric(ViewState("idUsuario")) Then
+                Throw New BusinessException("CLIENTE SEM USUÁRIO. ENTRE EM CONTATO COM O SUPORTE.")
+            End If
+
+
             Select Case rblPessoa.SelectedIndex
                 Case 1
                     If txtNome.Text = String.Empty Then Throw New BusinessException("O CAMPO NOME É OBRIGATÓRIO.")
                     If txtCPF.Text = String.Empty Then Throw New BusinessException("O CAMPO CPF É OBRIGATÓRIO.")
                     pFisica = New PessoaFisica
-                    pFisica.Nome = txtNome.Text
+                    pFisica.Nome = txtNome.Text.ToUpper
                     pFisica.Cpf = txtCPF.Text.Replace(".", "").Replace("-", "")
                     pFisica.Rg = txtRg.Text
 
@@ -168,8 +185,8 @@ Partial Class pages_administrativo_CadastroCliente
                     If txtFantasia.Text = String.Empty Then Throw New BusinessException("O CAMPO FANTASIA É OBRIGATÓRIO.")
                     If txtCNPJ.Text = String.Empty Then Throw New BusinessException("O CAMPO CNPJ É OBRIGATÓRIO.")
                     pJuridica = New PessoaJuridica
-                    pJuridica.RazaoSocial = txtRazaoSocial.Text
-                    pJuridica.Fantasia = txtFantasia.Text
+                    pJuridica.RazaoSocial = txtRazaoSocial.Text.ToUpper
+                    pJuridica.Fantasia = txtFantasia.Text.ToUpper
                     pJuridica.CNPJ = txtCNPJ.Text.Replace(".", "").Replace("-", "").Replace("/", "")
                     pJuridica.InscricaoEstadual = txtInscEstadual.Text
 
@@ -183,7 +200,7 @@ Partial Class pages_administrativo_CadastroCliente
                 Case Else
             End Select
 
-            If chkAcesso.Checked AndAlso txtSenha.Text = String.Empty Then
+            If chkAcesso.Checked AndAlso txtSenha.Text = String.Empty AndAlso ViewState("idCliente") = 0 Then
                 Throw New BusinessException("SE O CLIENTE FOR HABILITADO A TER ACESSO A WEB, ENTÃO DEVERÁ DIGITAR UMA SENHA.")
             End If
 
@@ -193,7 +210,7 @@ Partial Class pages_administrativo_CadastroCliente
             cliente.TipoCliente = IIf(drpTipoCliente.SelectedValue = "M", eTipoCliente.Master, eTipoCliente.Comum)
             cliente.PessoaFisica = pFisica
             cliente.PessoaJuridica = pJuridica
-            cliente.Endereco.Logradouro = txtEndereco.Text
+            cliente.Endereco.Logradouro = txtEndereco.Text.ToUpper
             cliente.Endereco.Cidade.Codigo = drpCidade.SelectedValue
             cliente.Endereco.Cidade.Nome = drpCidade.SelectedItem.Text
             cliente.Endereco.Cidade.Estado.Codigo = drpUF.SelectedValue
@@ -202,7 +219,7 @@ Partial Class pages_administrativo_CadastroCliente
             cliente.Contato.FoneResidencial = txtTelefoneFixo.Text.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "")
             cliente.Contato.FoneCelular = txtCelular.Text.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "")
             cliente.Contato.Fax = txtFax.Text.Replace("(", "").Replace(")", "").Replace("-", "").Replace(" ", "")
-            cliente.Contato.Email = txtEmail.Text
+            cliente.Contato.Email = txtEmail.Text.ToLower
             cliente.Vendedor.Codigo = drpVendedor.SelectedValue
             cliente.isAcessoWeb = chkAcesso.Checked
             cliente.Senha = txtSenha.Text

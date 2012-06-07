@@ -7,7 +7,6 @@ Namespace Camadas.Dominio.Administrativo
     Public Class Cliente
         Inherits Pessoa
 
-        Public Property CodigoUsuario() As Integer
         Public Property QuantidadeDispensadores() As Integer
         Public Property Vendedor() As New Vendedor
         Public Property TipoPessoa() As eTipoPessoa

@@ -5,41 +5,36 @@ Imports Camadas.Dominio.Administrativo
 Partial Class pages_administrativo_ConsultarCliente
     Inherits System.Web.UI.Page
 
-    Private controller As IClienteController = New ClienteController
+    Private controller As IVendedorController = New VendedorController
 
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Dim v As Camadas.Dominio.Administrativo.Vendedor
 
         If Not IsPostBack Then
             Me.txtNome.Attributes.Add("onkeypress", "return ValidarEntrada(event, '3')")
 
-            gvCliente.DataSource = controller.listarCliente
-            gvCliente.DataBind()
+            v = New Camadas.Dominio.Administrativo.Vendedor
+            gvVendedor.DataSource = controller.listarVendedor(v)
+            gvVendedor.DataBind()
 
         End If
 
     End Sub
 
     Protected Sub btnPesquisar_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPesquisar.Click
-        Dim cliente As Camadas.Dominio.Administrativo.Cliente
+        Dim vendedor As Camadas.Dominio.Administrativo.Vendedor
         Dim pF As PessoaFisica
-        Dim pJ As PessoaJuridica
 
         Try
-            cliente = New Camadas.Dominio.Administrativo.Cliente
+            vendedor = New Camadas.Dominio.Administrativo.Vendedor
             pF = New PessoaFisica
             pF.Nome = txtNome.Text
             pF.Cpf = txtCPF.Text
 
-            pJ = New PessoaJuridica
-            pJ.Fantasia = txtNome.Text
-            pJ.RazaoSocial = txtNome.Text
-            pJ.CNPJ = txtCPF.Text
+            vendedor.PessoaFisica = pF
 
-            cliente.PessoaFisica = pF
-            cliente.PessoaJuridica = pJ
-
-            gvCliente.DataSource = controller.listarCliente(cliente)
-            gvCliente.DataBind()
+            gvVendedor.DataSource = controller.listarVendedor(vendedor)
+            gvVendedor.DataBind()
 
         Catch ex As Exception
             ScriptManager.RegisterClientScriptBlock(Me.Page, Me.GetType, "Mensagem", "Mensagem('" & ex.Message.Replace("'", "") & "');", True)
@@ -69,20 +64,17 @@ Partial Class pages_administrativo_ConsultarCliente
     End Sub
 
     Protected Sub btnAddCliente_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnAddCliente.Click
-        Response.Redirect("~/pages/administrativo/CadastroCliente.aspx")
+        Response.Redirect("~/pages/administrativo/CadastroVendedor.aspx")
     End Sub
 
-    Protected Sub gvCliente_RowCommand(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewCommandEventArgs) Handles gvCliente.RowCommand
+    Protected Sub gvVendedor_RowCommand(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewCommandEventArgs) Handles gvVendedor.RowCommand
         Dim id As Integer
 
         If e.CommandName = "Pesquisar" Then
-            id = gvCliente.DataKeys.Item(e.CommandArgument).Value
-            If id > 0 Then Response.Redirect("~/pages/administrativo/CadastroCliente.aspx?id=" & id)
+            id = gvVendedor.DataKeys.Item(e.CommandArgument).Value
+            If id > 0 Then Response.Redirect("~/pages/administrativo/CadastroVendedor.aspx?id=" & id)
         End If
 
     End Sub
 
-    Protected Sub gvCliente_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles gvCliente.SelectedIndexChanged
-
-    End Sub
 End Class

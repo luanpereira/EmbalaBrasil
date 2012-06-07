@@ -112,7 +112,10 @@ input.texto:hover, input.texto:focus {
 }
 
 input.botaoForm, a.botaoForm {
-    background: #104E8B url(../Images/overlay-button.png) repeat-x;
+    border-style: none;
+    border-color: inherit;
+    border-width: medium;
+    background: #104E8B url('../Images/overlay-button.png') repeat-x;
     display: inline-block;
     padding: 3px 7px 3px;
     color: white;
@@ -125,10 +128,10 @@ input.botaoForm, a.botaoForm {
     border-radius: 6px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.5);
     text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25);
-    border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.25);
     position: relative;
     cursor: pointer;
+    top: 0px;
+    left: 0px;
 }
 
 input.botaoForm:hover
@@ -148,6 +151,11 @@ input.botaoForm:hover
 
 .botaoForm.save {
     background: #104E8B url(../Images/save.png) no-repeat left center;
+    padding-left: 20px;
+}
+
+.botaoForm.add {
+    background: #104E8B url(../Images/add_16.png) no-repeat left center;
     padding-left: 20px;
 }
 
