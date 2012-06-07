@@ -1,0 +1,7 @@
+cliente:
+campos:
+obrigatorio:
+
+vendedor:
+campos:
+obrigatorio

@@ -1,0 +1,18 @@
+semana = 4h
+
+sábado 4+=7h
+-Catequese 16h-19h
+
+domingo = 8h
+
+total:19h por semana. Por mês: 76h
+
+
+Sprint: Pacote básico
+ cliente:  4h
+vendedor:  4h
+ estoque:  8h
+  pedido:  8h
+reltorio:  4h
+  design:  4h
+   total: 32h -54h
