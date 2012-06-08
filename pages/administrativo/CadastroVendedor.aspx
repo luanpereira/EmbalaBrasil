@@ -114,7 +114,7 @@
                             </asp:MaskedEditExtender>    
                             <p>
                                 <asp:Label ID="label11" runat="server" CssClass="lbl" Text="E-mail"></asp:Label>
-                                <asp:TextBox ID="txtEmail" runat="server" CssClass="texto" Width="150px" 
+                                <asp:TextBox ID="txtEmail" runat="server" CssClass="texto" style="text-transform: lowercase;" Width="150px" 
                                     MaxLength="45"></asp:TextBox>
                             </p>                                               
                         </asp:Panel> 

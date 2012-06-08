@@ -11,7 +11,14 @@ Namespace Camadas.Negocio
         End Function
 
         Public Function listarProduto(ByVal p As Dominio.Estoque.Produto) As System.Data.DataTable Implements IEstoqueController.listarProduto
+            Dim dao As IEstoqueDAO
 
+            Try
+                dao = DaoFactory.GetEstoqueDAO
+                Return dao.listarProduto(p)
+            Catch ex As Exception
+                Throw ex
+            End Try
         End Function
 
         Public Function listarUnidade() As System.Data.DataTable Implements IEstoqueController.listarUnidade

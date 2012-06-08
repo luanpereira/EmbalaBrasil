@@ -23,6 +23,11 @@
                         <asp:TextBox ID="txtSigla" runat="server" Width="50px" CssClass="texto" MaxLength="10"></asp:TextBox>
                     </p>
                     <p>
+                        <asp:Label ID="label4" runat="server" Text="Preço Venda (R$)" CssClass="lbl" 
+                            ForeColor="#FC0000"></asp:Label>
+                        <asp:TextBox ID="txtPreco" runat="server" Width="90px" CssClass="texto" MaxLength="10"></asp:TextBox>
+                    </p>
+                    <p>
                         <asp:Label ID="label6" runat="server" CssClass="lbl" Text="Unidade" 
                             ForeColor="#FC0000"></asp:Label>
                         <asp:DropDownList ID="drpUnidade" runat="server" AutoPostBack="True" ></asp:DropDownList>
@@ -51,18 +56,18 @@
 
                     <asp:GridView ID="gvProduto" runat="server" AutoGenerateColumns="False" 
                         CellPadding="4" ForeColor="#333333" GridLines="None" ShowFooter="True" 
-                        Width="936px" DataKeyNames="EB04CODIGO" >
+                        Width="936px" DataKeyNames="EB08CODIGO" Caption="PRODUTOS CADASTRADOS" >
                         <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                         <Columns>
                             <asp:ButtonField ButtonType="Image" CommandName="Pesquisar" 
-                                DataTextField="EB04CODIGO" ImageUrl="~/recursos/Images/search.png">
+                                DataTextField="EB08CODIGO" ImageUrl="~/recursos/Images/search.png">
                             <ItemStyle Width="10px" />
                             </asp:ButtonField>
                             <asp:BoundField DataField="EB08SIGLA" HeaderText="Sigla" >
                             <HeaderStyle HorizontalAlign="Left" />
                             <ItemStyle Width="50px" />
                             </asp:BoundField>
-                            <asp:BoundField DataField="EN08NOME" HeaderText="Nome" >
+                            <asp:BoundField DataField="EB08NOME" HeaderText="Nome" >
                             <HeaderStyle HorizontalAlign="Left" />
                             <ItemStyle Width="200px" />
                             </asp:BoundField>

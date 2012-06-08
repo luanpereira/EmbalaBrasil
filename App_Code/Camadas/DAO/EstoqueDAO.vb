@@ -26,8 +26,8 @@ Public Class EstoqueDAO
     End Sub
 
     Public Function cadastrarProduto(ByVal p As Camadas.Dominio.Estoque.Produto) As Integer Implements IEstoqueDAO.cadastrarProduto
-        strSql = " INSERT INTO eb08produto (EB08NOME,EB08SIGLA,EB08ESPECIFICACA,EB08ESTOQUEMINIMO,FK0815UNIDADE) "
-        strSql += " VALUES('" & p.Nome & "','" & p.Sigla & "','" & p.Especficicao & "'," & p.EstoqueMinimo & "," & p.Unidade.Codigo & ")"
+        StrSql = " INSERT INTO eb08produto (EB08NOME,EB08SIGLA,EB08ESPECIFICACA,EB08ESTOQUEMINIMO,FK0815UNIDADE,EB08PRECO) "
+        StrSql += " VALUES('" & p.Nome & "','" & p.Sigla & "','" & p.Especficicao & "'," & p.EstoqueMinimo & "," & p.Unidade.Codigo & "," & p.Preco & ")"
 
         Try
             cmd = conn.CreateCommand
@@ -49,7 +49,28 @@ Public Class EstoqueDAO
     End Function
 
     Public Function listarProduto(ByVal p As Camadas.Dominio.Estoque.Produto) As System.Data.DataTable Implements IEstoqueDAO.listarProduto
+        Dim ds As New DataSet
 
+        StrSql = "  SELECT *, "
+        StrSql += "        (SELECT EB15NOME FROM EB15UNIDADE WHERE EB15CODIGO=FK0815UNIDADE) UNIDADE "
+        StrSql += "   FROM EB08PRODUTO "
+        StrSql += "  WHERE 1=1 "
+
+        If p.Codigo > 0 Then StrSql += "    AND EB08CODIGO = " & p.Codigo
+
+        StrSql += "  ORDER BY EB08NOME,EB08ESPECIFICACAO "
+
+        Try
+            Adpt = DaoFactory.GetDataAdapter
+            Cmd = conn.CreateCommand
+            Cmd.CommandText = StrSql
+            Adpt.SelectCommand = Cmd
+            Adpt.Fill(ds)
+
+            Return ds.Tables(0)
+        Catch ex As Exception
+            Throw ex
+        End Try
     End Function
 
     Public Function listarUnidade() As System.Data.DataTable Implements IEstoqueDAO.listarUnidade

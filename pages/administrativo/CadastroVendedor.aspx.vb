@@ -16,6 +16,14 @@ Partial Class pages_administrativo_CadastroCliente
             Me.txtNome.Attributes.Add("onkeypress", "return ValidarEntrada(event, '3')")
             Me.txtEndereco.Attributes.Add("onkeypress", "return ValidarEntrada(event, '3')")
             Me.txtCPF.Attributes.Add("onblur", "return ValidaCPF(this);")
+            Me.txtEmail.Attributes.Add("onkeypress", "return ValidarEntrada(event, '7')")
+            Me.txtRg.Attributes.Add("onkeypress", "return ValidarEntrada(event, '1')")
+            Me.txtCPF.Attributes.Add("onkeypress", "return ValidarEntrada(event, '1')")
+            Me.txtTelefoneFixo.Attributes.Add("onkeypress", "return ValidarEntrada(event, '1')")
+            Me.txtCelular.Attributes.Add("onkeypress", "return ValidarEntrada(event, '1')")
+            Me.txtFax.Attributes.Add("onkeypress", "return ValidarEntrada(event, '1')")
+            Me.txtCEP.Attributes.Add("onkeypress", "return ValidarEntrada(event, '1')")
+            Me.txtDataNascimento.Attributes.Add("onkeypress", "return ValidarEntrada(event, '1')")
 
             '--LISTAR ESTADOS --------------
             drpUF.DataValueField = "EB99CODIGO"

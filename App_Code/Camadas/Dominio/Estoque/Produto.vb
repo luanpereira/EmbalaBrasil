@@ -8,6 +8,7 @@ Namespace Camadas.Dominio.Estoque
         Public Property Especficicao() As String
         Public Property EstoqueMinimo() As Double
         Public Property Unidade() As Unidade
+        Public Property Preco() As Double
 
         Public Sub New()
             _Unidade = New Unidade
