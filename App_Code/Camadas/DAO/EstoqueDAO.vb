@@ -22,17 +22,51 @@ Public Class EstoqueDAO
     End Sub
 
     Public Sub autalizarProduto(ByVal p As Camadas.Dominio.Estoque.Produto) Implements IEstoqueDAO.autalizarProduto
+        Dim preco As String = ""
 
+        StrSql = "  UPDATE eb08produto SET EB08NOME='" & p.Nome & "',EB08SIGLA='" & p.Sigla & "',EB08ESPECIFICACAO='" & p.Especficicao & "',"
+        StrSql += " EB08ESTOQUEMINIMO=" & p.EstoqueMinimo & ",FK0815UNIDADE=" & p.Unidade.Codigo & ","
+        StrSql += " EB08PRECO="
+        preco = p.Preco & " "
+        StrSql += preco.Replace(",", ".")
+        StrSql += " WHERE EB08CODIGO = " & p.Codigo
+
+        Try
+            Cmd = conn.CreateCommand
+            Cmd.Transaction = DaoFactory.GetCurrentTransaction
+            Cmd.CommandText = StrSql
+            Cmd.ExecuteNonQuery()
+            Dim result As Integer = Cmd.LastInsertedId
+
+            '===========LOG===========
+            Seguranca.GravarLog(usuario, "U", "EB08", StrSql)
+            '=========================
+
+        Catch ex As OleDbException
+            Throw New DAOException("atualizaProduto >> " & ex.Message)
+        Catch ex As MySqlException
+            If ex.Number = 1062 Then
+                Throw New DAOException("SIGLA JÁ EXISTENTE NA BASE DE DADOS. TENTE OUTRA.")
+            Else
+                Throw New DAOException("atualizaProduto >> " & ex.Message)
+            End If
+        Catch ex As Exception
+            Throw New DAOException("atualizaProduto >> " & ex.Message)
+        End Try
     End Sub
 
     Public Function cadastrarProduto(ByVal p As Camadas.Dominio.Estoque.Produto) As Integer Implements IEstoqueDAO.cadastrarProduto
-        StrSql = " INSERT INTO eb08produto (EB08NOME,EB08SIGLA,EB08ESPECIFICACA,EB08ESTOQUEMINIMO,FK0815UNIDADE,EB08PRECO) "
-        StrSql += " VALUES('" & p.Nome & "','" & p.Sigla & "','" & p.Especficicao & "'," & p.EstoqueMinimo & "," & p.Unidade.Codigo & "," & p.Preco & ")"
+        Dim preco As String = ""
+
+        StrSql = " INSERT INTO eb08produto (EB08NOME,EB08SIGLA,EB08ESPECIFICACAO,EB08ESTOQUEMINIMO,FK0815UNIDADE,EB08PRECO) "
+        StrSql += " VALUES('" & p.Nome & "','" & p.Sigla & "','" & p.Especficicao & "'," & p.EstoqueMinimo & "," & p.Unidade.Codigo & ","
+        preco = p.Preco & ")"
+        StrSql += preco.Replace(",", ".")
 
         Try
-            cmd = conn.CreateCommand
-            cmd.Transaction = DaoFactory.GetCurrentTransaction
-            cmd.CommandText = strSql
+            Cmd = conn.CreateCommand
+            Cmd.Transaction = DaoFactory.GetCurrentTransaction
+            Cmd.CommandText = StrSql
             Cmd.ExecuteNonQuery()
             Dim result As Integer = Cmd.LastInsertedId
 
@@ -42,9 +76,15 @@ Public Class EstoqueDAO
 
             Return result
         Catch ex As OleDbException
-            Throw New DAOException(ex.Message)
+            Throw New DAOException("cadastroProduto >> " & ex.Message)
+        Catch ex As MySqlException
+            If ex.Number = 1062 Then
+                Throw New DAOException("SIGLA JÁ EXISTENTE NA BASE DE DADOS. TENTE OUTRA.")
+            Else
+                Throw New DAOException("cadastroProduto >> " & ex.Message)
+            End If
         Catch ex As Exception
-            Throw New DAOException(ex.Message)
+            Throw New DAOException("cadastroProduto >> " & ex.Message)
         End Try
     End Function
 
@@ -58,7 +98,7 @@ Public Class EstoqueDAO
 
         If p.Codigo > 0 Then StrSql += "    AND EB08CODIGO = " & p.Codigo
 
-        StrSql += "  ORDER BY EB08NOME,EB08ESPECIFICACAO "
+        StrSql += "  ORDER BY EB08NOME,UNIDADE,EB08ESPECIFICACAO "
 
         Try
             Adpt = DaoFactory.GetDataAdapter

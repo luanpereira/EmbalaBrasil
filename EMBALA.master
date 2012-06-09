@@ -52,7 +52,12 @@
                         <asp:MenuItem Text="Estoque" Value="Estoque">
                             <asp:MenuItem Text="Produto" Value="Produto" 
                                 NavigateUrl="~/pages/estoque/Produto.aspx"></asp:MenuItem>
-                            <asp:MenuItem Text="Estoque" Value="Estoque"></asp:MenuItem>
+                            <asp:MenuItem Text="Estoque" Value="Estoque">
+                                <asp:MenuItem NavigateUrl="~/pages/estoque/MovimentacaoEstoque.aspx" 
+                                    Text="Movimentação" Value="Movimentação"></asp:MenuItem>
+                                <asp:MenuItem NavigateUrl="~/pages/estoque/EntradaEstoque.aspx" Text="Entrada" 
+                                    Value="Entrada"></asp:MenuItem>
+                            </asp:MenuItem>
                         </asp:MenuItem>
                     </Items>
                     <StaticHoverStyle BackColor="#666666" ForeColor="White" />

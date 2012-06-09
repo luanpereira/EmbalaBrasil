@@ -55,9 +55,9 @@ Public Class Seguranca
             cmd.ExecuteNonQuery()
 
         Catch ex As OleDbException
-            Throw New DAOException(ex.Message)
+            Throw New DAOException("Gravando Log >> " & ex.Message)
         Catch ex As Exception
-            Throw New DAOException(ex.Message)
+            Throw New DAOException("Gravando Log >> " & ex.Message)
         End Try
 
     End Sub

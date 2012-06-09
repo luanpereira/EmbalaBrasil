@@ -47,6 +47,8 @@
                 
                 <p style="float: right">
                 
+                    <asp:Button ID="btnNovo" runat="server" CssClass="botaoForm article" 
+                        Text="Novo" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <asp:Button ID="btnSalvar" runat="server" CssClass="botaoForm save" 
                         Text="Salvar" />
                     <asp:Button ID="btnCancelar" runat="server" CssClass="botaoForm" 

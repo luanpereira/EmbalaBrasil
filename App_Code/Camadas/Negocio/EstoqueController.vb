@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic
 Imports Camadas.DAO
+Imports Excecoes
 
 Namespace Camadas.Negocio
 
@@ -7,7 +8,34 @@ Namespace Camadas.Negocio
         Implements IEstoqueController
 
         Public Function cadastrarProduto(ByVal p As Dominio.Estoque.Produto) As Integer Implements IEstoqueController.cadastrarProduto
+            Dim dao As IEstoqueDAO
 
+            Try
+
+                DaoFactory.BeginTransaction()
+                '--------------------------
+
+                dao = DaoFactory.GetEstoqueDAO
+
+                If p.Codigo = 0 Then
+                    dao.cadastrarProduto(p)
+                Else
+                    dao.autalizarProduto(p)
+                End If
+
+                '--------------------------
+                DaoFactory.TransactionCommit()
+
+            Catch ex As DAOException
+                DaoFactory.TransactionRollback()
+                Throw ex
+            Catch ex As Exception
+                DaoFactory.TransactionRollback()
+                Throw New BusinessException(ex.Message)
+            Finally
+                dao = Nothing
+                DaoFactory.CloseConnection()
+            End Try
         End Function
 
         Public Function listarProduto(ByVal p As Dominio.Estoque.Produto) As System.Data.DataTable Implements IEstoqueController.listarProduto
@@ -18,6 +46,9 @@ Namespace Camadas.Negocio
                 Return dao.listarProduto(p)
             Catch ex As Exception
                 Throw ex
+            Finally
+                dao = Nothing
+                DaoFactory.CloseConnection()
             End Try
         End Function
 
@@ -29,6 +60,9 @@ Namespace Camadas.Negocio
                 Return dao.listarUnidade()
             Catch ex As Exception
                 Throw ex
+            Finally
+                dao = Nothing
+                DaoFactory.CloseConnection()
             End Try
         End Function
     End Class
