@@ -72,7 +72,7 @@ Partial Class pages_estoque_Produto
             p.Sigla = Me.txtSigla.Text.Trim.ToUpper
             p.Preco = Double.Parse(Me.txtPreco.Text)
             p.Unidade.Codigo = Me.drpUnidade.SelectedValue
-            p.Especficicao = Me.txtEspecificacao.Text.Trim.ToUpper
+            p.Especificacao = Me.txtEspecificacao.Text.Trim.ToUpper
             p.EstoqueMinimo = Double.Parse(Me.txtEstoqueMinimo.Text)
 
             controller.cadastrarProduto(p)

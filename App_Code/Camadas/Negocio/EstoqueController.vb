@@ -1,5 +1,7 @@
 ﻿Imports Microsoft.VisualBasic
 Imports Camadas.DAO
+Imports Camadas.Dominio.Estoque
+Imports Camadas.Dominio.Financeiro
 Imports Excecoes
 
 Namespace Camadas.Negocio
@@ -65,6 +67,45 @@ Namespace Camadas.Negocio
                 DaoFactory.CloseConnection()
             End Try
         End Function
+
+        Public Sub entradaProduto(ByVal ep As Dominio.Estoque.EntradaProduto) Implements IEstoqueController.entradaProduto
+            Dim dao As IEstoqueDAO
+            Dim pedido As Pedido
+            Dim caixa As Caixa
+
+            Try
+
+                DaoFactory.BeginTransaction()
+                '--------------------------
+
+                dao = DaoFactory.GetEstoqueDAO
+
+                pedido = New EntradaProduto
+                ep.Situacao = "F" 'FINALIZADO
+                pedido = ep
+                pedido.Codigo = dao.cadastrarPedido(pedido)
+                ep.Codigo = pedido.Codigo
+                dao.cadastrarEntradaProduto(ep)
+
+                caixa = New Caixa
+                caixa.Operacao = "S" 'SAÍDA
+                caixa.Pedido.Codigo = pedido.Codigo
+                caixa.Valor = pedido.TotalReais
+                dao.registrarCaixa(caixa)
+                '--------------------------
+                DaoFactory.TransactionCommit()
+
+            Catch ex As DAOException
+                DaoFactory.TransactionRollback()
+                Throw ex
+            Catch ex As Exception
+                DaoFactory.TransactionRollback()
+                Throw New BusinessException(ex.Message)
+            Finally
+                dao = Nothing
+                DaoFactory.CloseConnection()
+            End Try
+        End Sub
     End Class
 
 End Namespace

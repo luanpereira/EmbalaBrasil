@@ -10,5 +10,6 @@ Partial Class pages_principal_Default
         u.Codigo = 11
 
         Session("usuario") = u
+        Session("empresa") = 1
     End Sub
 End Class
