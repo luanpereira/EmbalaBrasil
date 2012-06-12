@@ -202,3 +202,61 @@ input.botaoForm:hover
     color: gray;
     font: 1.1em Arial, Tahoma, Verdana;
 }
+
+/*CALENDÁRIO*/
+.calendario .ajax__calendar_body
+{
+	width: 196px;
+	background-color: #ccffcc;
+	border: solid 1px #cccccc;
+} 
+.calendario .ajax__calendar_container
+{
+	border:solid 1px #cccccc;
+	background-color:White;
+	width: 200px;
+	z-index:1000;
+}
+.calendario .ajax__calendar_header
+{
+	background-color: #ffffff;     
+	white-space:nowrap;
+	height:15px;
+	margin-bottom:4px;
+}
+
+.calendario .ajax__calendar_days table tr td
+{
+	padding-right: 0px;
+} 
+
+.calendario .ajax__calendar_title    
+{
+	color: #004099;     
+}
+
+.calendario .ajax__calendar_dayname 
+{
+	text-align:center;     
+	font-weight:bold;     
+	margin-bottom: 4px;     
+	margin-top: 2px;
+}
+.calendario .ajax__calendar_day 
+{
+	text-align:center;
+}
+.calendario .ajax__calendar_hover .ajax__calendar_day,.calendario .ajax__calendar_hover .ajax__calendar_month,.calendario .ajax__calendar_hover .ajax__calendar_year,.calendario .ajax__calendar_active  
+{
+	color: #004080;     
+	font-weight: bold;     
+	background-color: #ffffff;
+}
+.calendario .ajax__calendar_today   
+{
+	font-weight:bold;
+}
+.calendario .ajax__calendar_other,.calendario .ajax__calendar_hover .ajax__calendar_today,.calendario .ajax__calendar_hover .ajax__calendar_title 
+{
+	color: #bbbbbb;
+}

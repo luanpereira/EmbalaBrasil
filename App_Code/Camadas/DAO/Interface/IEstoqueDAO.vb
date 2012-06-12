@@ -12,5 +12,6 @@ Public Interface IEstoqueDAO
     Function cadastrarPedido(ByVal pedido As Pedido) As Long
     Sub cadastrarEntradaProduto(ByVal ep As EntradaProduto)
 
+    Sub registrarEstoque(ByVal estoque As Estoque)
     Sub registrarCaixa(ByVal caixa As Caixa)
 End Interface

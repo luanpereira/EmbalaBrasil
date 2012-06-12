@@ -32,6 +32,9 @@
                         <asp:Label ID="label2" runat="server" CssClass="lbl" Text="Data Pagamento"></asp:Label>
                         <asp:TextBox ID="txtDataPg" runat="server" CssClass="texto" MaxLength="10" 
                             Width="120px"></asp:TextBox>
+                        <asp:CalendarExtender ID="CalendarExtender1" runat="server" CssClass="calendario"
+                            Format="dd/MM/yyyy" TargetControlID="txtDataPg" PopupPosition="BottomRight">
+                        </asp:CalendarExtender>                        
                     </p>
                     <p>
                         <asp:Label ID="label3" runat="server" CssClass="lbl" Text="Observação"></asp:Label>

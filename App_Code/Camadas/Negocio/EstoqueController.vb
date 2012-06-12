@@ -72,6 +72,7 @@ Namespace Camadas.Negocio
             Dim dao As IEstoqueDAO
             Dim pedido As Pedido
             Dim caixa As Caixa
+            Dim estoque As Estoque
 
             Try
 
@@ -84,8 +85,16 @@ Namespace Camadas.Negocio
                 ep.Situacao = "F" 'FINALIZADO
                 pedido = ep
                 pedido.Codigo = dao.cadastrarPedido(pedido)
+
                 ep.Codigo = pedido.Codigo
                 dao.cadastrarEntradaProduto(ep)
+
+                estoque = New Estoque
+                estoque.Operacao = "E"
+                estoque.Valor = ep.Itens(0).Quantidade
+                estoque.Produto.Codigo = ep.Itens(0).Produto.Codigo
+                estoque.Pedido.Codigo = pedido.Codigo
+                dao.registrarEstoque(Estoque)
 
                 caixa = New Caixa
                 caixa.Operacao = "S" 'SAÍDA

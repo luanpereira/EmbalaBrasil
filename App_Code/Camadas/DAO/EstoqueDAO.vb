@@ -247,4 +247,31 @@ Public Class EstoqueDAO
             Throw New DAOException("registrarCaixa >> " & ex.Message)
         End Try
     End Sub
+
+    Public Sub registrarEstoque(ByVal estoque As Camadas.Dominio.Estoque.Estoque) Implements IEstoqueDAO.registrarEstoque
+        Dim valor As String = ""
+
+        StrSql = " INSERT INTO eb12estoque (EB12DATA,EB12OPERACAO,EB12VALOR,FK1208PRODUTO,FK1207PEDIDO) VALUES(NOW(),"
+        StrSql += "'" & estoque.Operacao & "',"
+        valor = estoque.Valor & ""
+        StrSql += valor.Replace(",", ".") & ","
+        StrSql += estoque.Produto.Codigo & ","
+        StrSql += estoque.Pedido.Codigo & ")"
+
+        Try
+            Cmd = conn.CreateCommand
+            Cmd.Transaction = DaoFactory.GetCurrentTransaction
+            Cmd.CommandText = StrSql
+            Cmd.ExecuteNonQuery()
+
+            '===========LOG===========
+            Seguranca.GravarLog(usuario, "I", "EB12", StrSql)
+            '=========================
+
+        Catch ex As OleDbException
+            Throw New DAOException("registrarEstoque >> " & ex.Message)
+        Catch ex As Exception
+            Throw New DAOException("registrarEstoque >> " & ex.Message)
+        End Try
+    End Sub
 End Class

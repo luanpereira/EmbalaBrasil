@@ -8,5 +8,10 @@ Namespace Camadas.Dominio.Estoque
         Public Property Valor() As Double
         Public Property Produto() As Produto
         Public Property Pedido() As Pedido
+
+        Public Sub New()
+            _Produto = New Produto
+            _Pedido = New Pedido
+        End Sub
     End Class
 End Namespace

@@ -1,5 +1,6 @@
 ﻿Imports Camadas.Negocio
 Imports Camadas.Dominio.Estoque
+Imports Excecoes
 
 Partial Class pages_estoque_EntradaEstoque
     Inherits System.Web.UI.Page
@@ -10,6 +11,8 @@ Partial Class pages_estoque_EntradaEstoque
         Dim p As Produto
 
         If Not IsPostBack Then
+            Me.txtQuantidade.Attributes.Add("onkeypress", "return ValidarEntrada(event, '1')")
+
             Try
                 p = New Produto
 
@@ -22,7 +25,7 @@ Partial Class pages_estoque_EntradaEstoque
             Catch ex As Exception
                 ScriptManager.RegisterClientScriptBlock(Me.Page, Me.GetType, "Mensagem", "Mensagem('" & ex.Message.Replace("'", "") & "'); history.back()", True)
             End Try
- 
+
         End If
     End Sub
 
@@ -32,6 +35,10 @@ Partial Class pages_estoque_EntradaEstoque
         Dim array As String()
 
         Try
+
+            If IsNumeric(drpProduto.SelectedValue) AndAlso drpProduto.SelectedValue = 0 Then Throw New BusinessException("O CAMPO PRODUTO É OBRIGATÓRIO!")
+            If Not IsNumeric(txtQuantidade.Text) Then Throw New BusinessException("O CAMPO QUANTIDADE É OBRIGATÓRIO E MAIOR QUE ZERO!")
+
             ep = New EntradaProduto
             i = New ItemPedido
 
