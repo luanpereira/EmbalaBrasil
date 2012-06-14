@@ -13,5 +13,6 @@ Public Interface IEstoqueDAO
     Sub cadastrarEntradaProduto(ByVal ep As EntradaProduto)
 
     Sub registrarEstoque(ByVal estoque As Estoque)
+    Function movimentoEstoque(ByVal dataIni As String, ByVal dataFin As String, Optional ByVal idProduto As Integer = 0) As DataTable
     Sub registrarCaixa(ByVal caixa As Caixa)
 End Interface

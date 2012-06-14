@@ -2,14 +2,20 @@
 Partial Class pages_principal_Default
     Inherits System.Web.UI.Page
 
+    Private seguranca As Seguranca
+
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
-        Dim u As New Usuario
+        'seguranca = New Seguranca
 
-        u.Nome = "LUAN PERERA"
-        u.Usuario = "luan"
-        u.Codigo = 11
+        'Try
+        '    seguranca.ValidarAcesso(1)
+        'Catch ex As Exception
+        '    ScriptManager.RegisterClientScriptBlock(Me.Page, Me.GetType, "Mensagem", "Mensagem('" & ex.Message.Replace("'", "") & "');", True)
+        'End Try
 
-        Session("usuario") = u
-        Session("empresa") = 1
+
+        'If Not IsPostBack Then
+
+        'End If
     End Sub
 End Class

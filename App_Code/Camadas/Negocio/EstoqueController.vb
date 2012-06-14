@@ -94,7 +94,7 @@ Namespace Camadas.Negocio
                 estoque.Valor = ep.Itens(0).Quantidade
                 estoque.Produto.Codigo = ep.Itens(0).Produto.Codigo
                 estoque.Pedido.Codigo = pedido.Codigo
-                dao.registrarEstoque(Estoque)
+                dao.registrarEstoque(estoque)
 
                 caixa = New Caixa
                 caixa.Operacao = "S" 'SAÍDA
@@ -115,6 +115,20 @@ Namespace Camadas.Negocio
                 DaoFactory.CloseConnection()
             End Try
         End Sub
+
+        Public Function movimentoEstoque(ByVal dataIni As String, ByVal dataFin As String, Optional ByVal idProduto As Integer = 0) As System.Data.DataTable Implements IEstoqueController.movimentoEstoque
+            Dim dao As IEstoqueDAO
+
+            Try
+                dao = DaoFactory.GetEstoqueDAO
+                Return dao.movimentoEstoque(dataIni, dataFin, idProduto)
+            Catch ex As Exception
+                Throw ex
+            Finally
+                dao = Nothing
+                DaoFactory.CloseConnection()
+            End Try
+        End Function
     End Class
 
 End Namespace

@@ -8,5 +8,5 @@ Public Interface IEstoqueController
     Function cadastrarProduto(ByVal p As Produto) As Integer
 
     Sub entradaProduto(ByVal ep As EntradaProduto)
-
+    Function movimentoEstoque(ByVal dataIni As String, ByVal dataFin As String, Optional ByVal idProduto As Integer = 0) As DataTable
 End Interface

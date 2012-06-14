@@ -274,4 +274,51 @@ Public Class EstoqueDAO
             Throw New DAOException("registrarEstoque >> " & ex.Message)
         End Try
     End Sub
+
+    Public Function movimentoEstoque(ByVal dataIni As String, ByVal dataFin As String, Optional ByVal idProduto As Integer = 0) As System.Data.DataTable Implements IEstoqueDAO.movimentoEstoque
+        Dim ds As New DataSet
+
+        StrSql = "  SELECT EB12CODIGO,EB12DATA, "
+        StrSql += "        CASE WHEN (SELECT COUNT(FK0104CLIENTE) FROM eb01pedidoclientecomum WHERE FK0107PEDIDO=FK1207PEDIDO) > 0 THEN "
+        StrSql += "          CONCAT('(Cliente Comum): ',(SELECT CASE WHEN EB04TIPOPESSOA='F' THEN EB04NOME ELSE EB04FANTASIA END FROM eb01pedidoclientecomum,eb04cliente WHERE FK0107PEDIDO=FK1207PEDIDO AND EB04CODIGO=FK0104CLIENTE)) "
+        StrSql += "        WHEN (SELECT COUNT(FK0206VENDEDOR) FROM eb02pedidovendedor WHERE FK0207PEDIDO=FK1207PEDIDO) > 0 THEN "
+        StrSql += "          CONCAT('(Vendedor): ',(SELECT EB06NOME FROM eb02pedidovendedor,eb06vendedor WHERE EB06CODIGO=FK0206VENDEDOR AND FK0207PEDIDO=FK1207PEDIDO)) "
+        StrSql += "        WHEN (SELECT COUNT(FK0304CLIENTE) FROM eb03pedidoclientemaster WHERE FK0307PEDIDO=FK1207PEDIDO) > 0 THEN "
+        StrSql += "          CONCAT('(Cliente Master): ',(SELECT CASE WHEN EB04TIPOPESSOA='F' THEN EB04NOME ELSE EB04FANTASIA END FROM eb03pedidoclientemaster,eb04cliente WHERE FK0307PEDIDO=FK1207PEDIDO AND EB04CODIGO=FK0304CLIENTE)) "
+        StrSql += "        WHEN (SELECT COUNT(EB16CODIGO) FROM eb16entradaproduto WHERE FK1607PEDIDO=FK1207PEDIDO) > 0 THEN "
+        StrSql += "          '(Entrada de Produto)' "
+        StrSql += "        ELSE "
+        StrSql += "          'CLIENTE INDEFINIDO' "
+        StrSql += "        END CLIENTE, "
+
+        StrSql += "        (SELECT CONCAT(EB08NOME,' - ',EB08ESPECIFICACAO) FROM eb08produto WHERE EB08CODIGO=FK1208PRODUTO) PRODUTO, "
+        StrSql += "        CASE WHEN EB12OPERACAO = 'E' THEN "
+        StrSql += "          'ENTRADA' "
+        StrSql += "        ELSE "
+        StrSql += "          'SAÍDA' "
+        StrSql += "        END OPERACAO, "
+        StrSql += "        EB12VALOR "
+
+        StrSql += "   FROM eb12estoque "
+        StrSql += "  WHERE 1=1 "
+
+        If idProduto > 0 Then StrSql += " AND FK1208PRODUTO = " & idProduto
+
+        StrSql += "    AND LEFT(EB12DATA,10) BETWEEN '" & dataIni & "' AND '" & dataFin & "' "
+
+        StrSql += "        ORDER BY EB12DATA "
+
+
+        Try
+            Adpt = DaoFactory.GetDataAdapter
+            Cmd = conn.CreateCommand
+            Cmd.CommandText = StrSql
+            Adpt.SelectCommand = Cmd
+            Adpt.Fill(ds)
+
+            Return ds.Tables(0)
+        Catch ex As Exception
+            Throw ex
+        End Try
+    End Function
 End Class

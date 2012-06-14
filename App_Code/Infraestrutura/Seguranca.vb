@@ -150,7 +150,7 @@ Public Class Seguranca
 
         Try
             If session("usuario") Is Nothing Then
-                Throw New UsuarioPermissaoException("SEU LOGIN EXPIROU. FAÇA SEU LOGIN NOVAMENTE.")
+                Throw New UsuarioPermissaoException("LOGIN NÃO IDENTIFICADO OU EXPIRADO. FAÇA SEU LOGIN.")
             Else
                 If Not (CType(session("usuario"), Usuario).NivelAcesso = Funcao1 Or _
                     CType(session("usuario"), Usuario).NivelAcesso = Funcao2 Or _
@@ -160,6 +160,8 @@ Public Class Seguranca
             End If
 
         Catch ex As UsuarioPermissaoException
+            Throw ex
+        Catch ex As Exception
             Throw ex
         End Try
 

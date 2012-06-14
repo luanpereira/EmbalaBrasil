@@ -19,6 +19,9 @@
 <body>
     <div id="main">
         <div id="corpo">
+            <form id="form1" runat="server">
+                <div id="top"><asp:Label ID="lblUsuario" runat="server" Text="">
+                </asp:Label><asp:LinkButton ID="lnkSair" runat="server">[Sair]</asp:LinkButton></div>
             <div id="cabecalho">
     	        <a href="#"><div id="logo"></div></a>
     	        <div id="tituloSite">Embala Brasil - Sistema de Gestão Empresarial</div>
@@ -27,42 +30,46 @@
     	        <a href="http://www.ceuma.br" target="_blank"><div id="logoCeuma"></div></a>--%>
             </div>
 
-            <form id="form1" runat="server">
-
             <div id="div_menu">
 
                 <asp:Menu ID="Menu1" runat="server" BackColor="#E3EAEB" 
-                    DynamicHorizontalOffset="2" Font-Names="Verdana" Font-Size="0.95em" 
+                    DynamicHorizontalOffset="2" Font-Names="Trebuchet MS" Font-Size="1.3em" 
                     ForeColor="#666666" Orientation="Horizontal" StaticSubMenuIndent="10px">
                     <DynamicHoverStyle BackColor="#666666" ForeColor="White" />
                     <DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
                     <DynamicMenuStyle BackColor="#E3EAEB" />
                     <DynamicSelectedStyle BackColor="#1C5E55" />
+                    <DynamicItemTemplate>
+                        <%# Eval("Text") %>
+                    </DynamicItemTemplate>
                     <Items>
+                        <asp:MenuItem NavigateUrl="~/pages/principal/Default.aspx" Text="Início" 
+                            Value="Início"></asp:MenuItem>
                         <asp:MenuItem Text="Administrativo" Value="Administrativo">
                             <asp:MenuItem NavigateUrl="~/pages/administrativo/ConsultarCliente.aspx" 
                                 Text="Clientes" Value="Clientes"></asp:MenuItem>
                             <asp:MenuItem Text="Vendedores" Value="Vendedores" 
                                 NavigateUrl="~/pages/administrativo/ConsultarVendedor.aspx"></asp:MenuItem>
                         </asp:MenuItem>
+<asp:MenuItem Text="Pedido" Value="Pedido">
+</asp:MenuItem>
                         <asp:MenuItem Text="Financeiro" Value="Financeiro">
-                            <asp:MenuItem Text="Pedido" Value="Pedido"></asp:MenuItem>
                             <asp:MenuItem Text="Caixa" Value="Caixa"></asp:MenuItem>
                         </asp:MenuItem>
                         <asp:MenuItem Text="Estoque" Value="Estoque">
-                            <asp:MenuItem Text="Produto" Value="Produto" 
-                                NavigateUrl="~/pages/estoque/Produto.aspx"></asp:MenuItem>
+                            <asp:MenuItem NavigateUrl="~/pages/estoque/Produto.aspx" 
+                                Text="Cadastrar Produto" Value="Produto"></asp:MenuItem>
                             <asp:MenuItem Text="Estoque" Value="Estoque">
                                 <asp:MenuItem NavigateUrl="~/pages/estoque/MovimentacaoEstoque.aspx" 
                                     Text="Movimentação" Value="Movimentação"></asp:MenuItem>
-                                <asp:MenuItem NavigateUrl="~/pages/estoque/EntradaEstoque.aspx" Text="Entrada" 
+                                <asp:MenuItem NavigateUrl="~/pages/estoque/EntradaEstoque.aspx" Text="Entrada de Produto" 
                                     Value="Entrada"></asp:MenuItem>
                             </asp:MenuItem>
                         </asp:MenuItem>
                     </Items>
                     <StaticHoverStyle BackColor="#666666" ForeColor="White" />
                     <StaticMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
-                    <StaticSelectedStyle BackColor="#1C5E55" />
+                    <StaticSelectedStyle BackColor="#1C5E55" ForeColor="White" />
                 </asp:Menu>
 
             </div>
@@ -74,8 +81,10 @@
             </div>
             </form>
         </div>
-        <div class="footer">© Embala Brasil <% Response.Write(Date.Now.Year)%>. Todos os direitos Reservados.</div>
-        <div class="footer">Desenvolvido por, <a href="http://www.luanpereira.com" target="_blank">LuanPereira.com</a></div>
+        
+            <div class="footer">© Embala Brasil <% Response.Write(Date.Now.Year)%>. Todos os direitos Reservados.</div>
+            <div class="footer">Desenvolvido por, <a href="http://www.luanpereira.com" target="_blank">LuanPereira.com</a></div>
+        
     </div>
 </body>
 </html>
