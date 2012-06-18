@@ -51,7 +51,7 @@
                             <asp:MenuItem Text="Vendedores" Value="Vendedores" 
                                 NavigateUrl="~/pages/administrativo/ConsultarVendedor.aspx"></asp:MenuItem>
                         </asp:MenuItem>
-<asp:MenuItem Text="Pedido" Value="Pedido">
+<asp:MenuItem Text="Pedido" Value="Pedido" NavigateUrl="~/pages/estoque/ConsultarPedido.aspx">
 </asp:MenuItem>
                         <asp:MenuItem Text="Financeiro" Value="Financeiro">
                             <asp:MenuItem Text="Caixa" Value="Caixa"></asp:MenuItem>

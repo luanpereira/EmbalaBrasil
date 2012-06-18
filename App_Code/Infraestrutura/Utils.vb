@@ -11,6 +11,8 @@ Namespace Infraestrutura
 
     Public Class Utils
 
+        Public Shared ReadOnly AMBIENTE As String = System.Configuration.ConfigurationManager.AppSettings.Item("AMBIENTE").ToString
+
         Private Shared strSql As String
         Private Shared cmd As IDbCommand
         Private Shared adpt As IDbDataAdapter
